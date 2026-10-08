@@ -304,9 +304,10 @@ def run_radar():
         time.sleep(1)
 
 if __name__ == "__main__":
-    # Iniciar servidor web en segundo plano
-    web_thread = threading.Thread(target=run_web, daemon=True)
-    web_thread.start()
+    # Iniciar el radar en un hilo independiente
+    radar_thread = threading.Thread(target=run_radar, daemon=True)
+    radar_thread.start()
     
-    # Iniciar el radar
-    run_radar()
+    # Flask corre en el hilo principal atendiendo las peticiones de Render
+    port = int(os.environ.get("PORT", 8080))
+    app.run(host="0.0.0.0", port=port)
