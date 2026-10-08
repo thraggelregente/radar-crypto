@@ -303,11 +303,10 @@ def run_radar():
 
         time.sleep(1)
 
+# Iniciar el radar apenas el archivo se cargue en Render
+radar_thread = threading.Thread(target=run_radar, daemon=True)
+radar_thread.start()
+
 if __name__ == "__main__":
-    # Iniciar el radar en un hilo independiente
-    radar_thread = threading.Thread(target=run_radar, daemon=True)
-    radar_thread.start()
-    
-    # Flask corre en el hilo principal atendiendo las peticiones de Render
     port = int(os.environ.get("PORT", 8080))
     app.run(host="0.0.0.0", port=port)
