@@ -303,10 +303,18 @@ def run_radar():
 
         time.sleep(1)
 
-# Iniciar el radar apenas el archivo se cargue en Render
-radar_thread = threading.Thread(target=run_radar, daemon=True)
+def start_background_radar():
+    try:
+        print(">>> HILO DE RADAR LANZADO CON EXITO <<<", flush=True)
+        run_radar()
+    except Exception as e:
+        print(f">>> ERROR CRITICO EN RUN_RADAR: {e} <<<", flush=True)
+
+# Iniciar el hilo del radar
+radar_thread = threading.Thread(target=start_background_radar, daemon=True)
 radar_thread.start()
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8080))
-    app.run(host="0.0.0.0", port=port)
+    # use_reloader=False evita que Flask clone el proceso y mate el hilo
+    app.run(host="0.0.0.0", port=port, use_reloader=False)
