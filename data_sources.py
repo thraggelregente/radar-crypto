@@ -4,14 +4,14 @@ import pandas as pd
 
 BASE_PIONEX = "https://api.pionex.com"
 
-def get_market_data(symbol="SOLUSDT"):
+def get_market_data(symbol="SOLUSDT", interval="15m", limit=100):
     """
     Obtiene velas y volumen directamente de Pionex Spot.
     Transforma símbolos como 'SOLUSDT' a 'SOL_USDT'.
     """
     try:
         sym = f"{symbol[:-4]}_{symbol[-4:]}" if "_" not in symbol else symbol
-        url = f"{BASE_PIONEX}/api/v1/market/klines?symbol={sym}&interval=15m&limit=100"
+        url = f"{BASE_PIONEX}/api/v1/market/klines?symbol={sym}&interval={interval}&limit={limit}"
         res = requests.get(url, timeout=6).json()
         
         klines = res.get("data", {}).get("klines", [])
