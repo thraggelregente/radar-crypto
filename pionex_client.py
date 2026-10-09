@@ -81,11 +81,15 @@ def size_decimals(symbol: str) -> int:
 
 def place_futures_order(symbol: str, side: str, amount_usdt: float, price_ref: float, client_order_id=None) -> dict:
     """
-    side: 'BUY' (para abrir Long o cerrar Short) | 'SELL' (para abrir Short o cerrar Long)
+    side: 'BUY' (Long) | 'SELL' (Short)
     """
     sym = symbol if "_" in symbol else f"{symbol[:-4]}_{symbol[-4:]}"
     dec = size_decimals(sym)
-    size = floor_to(amount_usdt / price_ref, dec) if price_ref > 0 else 0.0
+    
+    # Asegurar un margen seguro calculando sobre 9.5 USDT para dejar resto de comisiones
+    target_amount = min(amount_usdt, 10.0)
+    size = floor_to(target_amount / price_ref, dec) if price_ref > 0 else 0.0
+    
     if size <= 0:
         return {"result": False, "message": "Tamaño calculado menor al permitido."}
 
@@ -98,19 +102,19 @@ def place_futures_order(symbol: str, side: str, amount_usdt: float, price_ref: f
     if client_order_id:
         body["clientOrderId"] = re.sub(r"[^A-Za-z0-9-]", "-", client_order_id)[:64]
 
-    # Envío a endpoint de contratos futuros
+    # Enviar al endpoint de contratos de futuros
     res = _signed_request("POST", "/api/v1/futures/order", body=body)
     if not res.get("result"):
-        # Intento con fallback a endpoint spot/margin si la cuenta usa Unified Account
-        body_spot = {
+        # Respaldo con parámetro de monto directo si el par opera por contrato estándar
+        body_fallback = {
             "symbol": sym,
             "side": side.upper(),
             "type": "MARKET",
-            "amount": f"{amount_usdt:.2f}" if side.upper() == "BUY" else None,
-            "size": f"{size:.{dec}f}" if side.upper() == "SELL" else None
+            "amount": f"{target_amount:.2f}"
         }
-        body_spot = {k: v for k, v in body_spot.items() if v is not None}
-        return _signed_request("POST", "/api/v1/trade/order", body=body_spot)
+        res_fb = _signed_request("POST", "/api/v1/futures/order", body=body_fallback)
+        if res_fb.get("result"):
+            return res_fb
     return res
 
 def close_futures_position(symbol: str, side_to_close: str, size: float, client_order_id=None) -> dict:
