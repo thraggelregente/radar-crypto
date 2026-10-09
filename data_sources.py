@@ -1,107 +1,122 @@
+"""Datos de mercado de Pionex (los mismos precios en los que se ejecuta la orden).
+
+Regla de oro de este módulo: si un dato no se pudo bajar, se devuelve vacío/None.
+NUNCA se inventan velas ni valores: una señal armada con datos falsos es peor que no tener señal.
+"""
 import requests
 import pandas as pd
-import time
 
 BASE_PIONEX = "https://api.pionex.com"
+HEADERS = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
 
-# Mapeo de intervalos estándar a Pionex
+# Pionex exige los intervalos en MAYÚSCULA: 1M, 5M, 15M, 30M, 60M, 4H, 8H, 12H, 1D
 INTERVAL_MAP = {
-    "1m": "1m",
-    "5m": "5m",
-    "15m": "15m",
-    "1h": "60m",
-    "4h": "4h",
-    "1d": "1d"
+    "1m": "1M", "5m": "5M", "15m": "15M", "30m": "30M",
+    "1h": "60M", "4h": "4H", "8h": "8H", "12h": "12H", "1d": "1D",
 }
 
-HEADERS = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
-}
 
-def get_market_data(symbol="SOLUSDT", interval="15m", limit=100):
-    """
-    Obtiene velas de Pionex. Si Pionex falla, genera una estructura
-    de velas sintéticas con el precio spot real para no clavar el radar en 0.
-    """
-    sym = f"{symbol[:-4]}_{symbol[-4:]}" if "_" not in symbol else symbol
-    p_interval = INTERVAL_MAP.get(interval, "15m")
-    
+def to_pionex_symbol(symbol: str) -> str:
+    """'SOLUSDT' -> 'SOL_USDT' (si ya viene con guion bajo, lo deja igual)."""
+    if "_" in symbol:
+        return symbol
+    for quote in ("USDT", "USDC", "BTC"):
+        if symbol.endswith(quote) and len(symbol) > len(quote):
+            return f"{symbol[:-len(quote)]}_{quote}"
+    return symbol
+
+
+def _get(path, params=None, timeout=8):
+    r = requests.get(f"{BASE_PIONEX}{path}", params=params, headers=HEADERS, timeout=timeout)
     try:
-        url = f"{BASE_PIONEX}/api/v1/market/klines?symbol={sym}&interval={p_interval}&limit={limit}"
-        res = requests.get(url, headers=HEADERS, timeout=6).json()
-        klines = res.get("data", {}).get("klines", [])
-        
-        if klines:
-            df = pd.DataFrame(klines)
-            for col in ["open", "high", "low", "close", "volume"]:
-                if col in df.columns:
-                    df[col] = df[col].astype(float)
-            if not df.empty and len(df) >= 14:
-                return df
-    except Exception as e:
-        print(f"Fallo klines primario {sym}: {e}", flush=True)
+        return r.json()
+    except ValueError:
+        return {"result": False, "message": f"Respuesta no JSON (HTTP {r.status_code})"}
 
-    # Respaldo: obtener precio en vivo directo del libro/ticker de Pionex
-    price = get_live_price(sym)
-    if price > 0:
-        # Genera velas base para que el RSI y los indicadores puedan calcular
-        dummy_data = [{
-            "open": price,
-            "high": price * 1.001,
-            "low": price * 0.999,
-            "close": price,
-            "volume": 1000.0
-        } for _ in range(limit)]
-        return pd.DataFrame(dummy_data)
-        
-    return pd.DataFrame()
 
-def get_live_price(sym):
-    """Obtiene el último precio ejecutado desde Pionex."""
+def get_klines(symbol="SOLUSDT", interval="15m", limit=100) -> pd.DataFrame:
+    """Velas ordenadas de la más vieja a la más nueva. DataFrame vacío si algo falla."""
+    sym = to_pionex_symbol(symbol)
+    iv = INTERVAL_MAP.get(interval, str(interval).upper())
     try:
-        url = f"{BASE_PIONEX}/api/v1/market/trades?symbol={sym}&limit=1"
-        res = requests.get(url, headers=HEADERS, timeout=5).json()
-        trades = res.get("data", {}).get("trades", [])
+        res = _get("/api/v1/market/klines", {"symbol": sym, "interval": iv, "limit": limit})
+        klines = (res.get("data") or {}).get("klines") or []
+        if not klines:
+            print(f"[datos] Sin velas para {sym} {iv}: {res.get('code') or ''} {res.get('message') or ''}", flush=True)
+            return pd.DataFrame()
+        df = pd.DataFrame(klines)
+        needed = ["open", "high", "low", "close", "volume"]
+        if not all(c in df.columns for c in needed):
+            print(f"[datos] Formato inesperado de velas para {sym}: columnas {list(df.columns)}", flush=True)
+            return pd.DataFrame()
+        for c in needed:
+            df[c] = pd.to_numeric(df[c], errors="coerce")
+        if "time" in df.columns:
+            df["time"] = pd.to_numeric(df["time"], errors="coerce")
+            df = df.sort_values("time")
+        return df.dropna(subset=needed).reset_index(drop=True)
+    except Exception as e:  # noqa: BLE001
+        print(f"[datos] Error bajando velas de {sym}: {e}", flush=True)
+        return pd.DataFrame()
+
+
+def get_live_price(symbol: str) -> float:
+    """Último precio de Pionex, o 0.0 si no se pudo obtener."""
+    sym = to_pionex_symbol(symbol)
+    try:
+        res = _get("/api/v1/market/tickers", {"symbol": sym}, timeout=5)
+        tickers = (res.get("data") or {}).get("tickers") or []
+        if tickers:
+            price = float(tickers[0].get("close") or 0)
+            if price > 0:
+                return price
+    except Exception:  # noqa: BLE001
+        pass
+    try:
+        res = _get("/api/v1/market/trades", {"symbol": sym, "limit": 1}, timeout=5)
+        trades = (res.get("data") or {}).get("trades") or []
         if trades:
             return float(trades[0]["price"])
-    except Exception:
+    except Exception:  # noqa: BLE001
         pass
-        
-    # Segundo respaldo: Tickers globales de Pionex
-    try:
-        url = f"{BASE_PIONEX}/api/v1/market/tickers?symbol={sym}"
-        res = requests.get(url, headers=HEADERS, timeout=5).json()
-        tickers = res.get("data", {}).get("tickers", [])
-        if tickers:
-            return float(tickers[0].get("close", 0.0))
-    except Exception:
-        pass
-        
     return 0.0
 
-def get_funding_and_sentiment(symbol="SOLUSDT"):
-    return {
-        "funding_rate": 0.01,
-        "bias": "NEUTRAL",
-        "funding_raw": "0.0100%"
-    }
 
-def get_fear_and_greed():
-    try:
-        url = "https://api.alternative.me/fng/?limit=1"
-        res = requests.get(url, headers=HEADERS, timeout=5).json()
-        val = int(res["data"][0]["value"])
-        clas = res["data"][0]["value_classification"]
-        return {"value": val, "sentiment": clas}
-    except Exception:
-        return {"value": 50, "sentiment": "Neutral"}
+def get_btc_change_1h(symbol="BTCUSDT"):
+    """Variación % de BTC en la última hora (4 velas cerradas de 15m). None si no hay datos."""
+    df = get_klines(symbol, "15m", 20)
+    if len(df) < 7:
+        return None
+    closed = df.iloc[:-1]            # la última vela está en formación
+    return float((closed["close"].iloc[-1] / closed["close"].iloc[-5] - 1) * 100)
 
-def check_btc_health():
+
+def _to_float(x):
     try:
-        price = get_live_price("BTC_USDT")
-        return {
-            "healthy": price > 0,
-            "btc_price": price
-        }
-    except Exception:
-        return {"healthy": True, "btc_price": 0.0}
+        return float(x)
+    except (TypeError, ValueError):
+        return None
+
+
+def _to_int(x):
+    try:
+        return int(x)
+    except (TypeError, ValueError):
+        return None
+
+
+def get_symbol_rules(symbols):
+    """Precisión y mínimos de cada par según Pionex. Devuelve {} si no se pudo consultar."""
+    out = {}
+    try:
+        syms = ",".join(to_pionex_symbol(s) for s in symbols)
+        res = _get("/api/v1/common/symbols", {"symbols": syms})
+        for s in (res.get("data") or {}).get("symbols") or []:
+            out[s.get("symbol")] = {
+                "base_precision": _to_int(s.get("basePrecision")),
+                "min_amount": _to_float(s.get("minAmount")),
+                "min_size": _to_float(s.get("minTradeSize")),
+            }
+    except Exception as e:  # noqa: BLE001
+        print(f"[datos] No pude consultar reglas de los pares: {e}", flush=True)
+    return out
