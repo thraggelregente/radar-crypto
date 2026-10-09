@@ -1,4 +1,4 @@
-"""Cálculo bidireccional (LONG y SHORT) con lógica técnica no contradictoria."""
+"""Cálculo de indicadores y señales técnicas en Spot sin contradicciones."""
 import numpy as np
 import pandas as pd
 from data_sources import get_klines, get_live_price
@@ -36,42 +36,29 @@ def evaluate_strategy(symbol="SOLUSDT", interval="15m"):
 
     price = get_live_price(symbol) or float(df["close"].iloc[-1])
 
-    score_long = 0
-    signals_long = []
-    score_short = 0
-    signals_short = []
+    score = 0
+    signals = []
 
-    # --- Evaluación LONG ---
+    # Condición 1: Rebote de sobreventa (Mean Reversion)
     if last_rsi <= 32:
-        score_long += 40
-        signals_long.append(f"RSI sobreventa ({last_rsi})")
-    elif ema_fast > ema_slow and 45 <= last_rsi <= 65:
-        score_long += 35
-        signals_long.append("Tendencia alcista (EMA9 > EMA21)")
-        if volume_ratio >= 1.2:
-            score_long += 15
-            signals_long.append(f"Volumen confirmando ({volume_ratio}x)")
+        score += 50
+        signals.append(f"RSI sobreventa ({last_rsi}) - Oportunidad de rebote")
+    elif last_rsi <= 40:
+        score += 25
+        signals.append(f"RSI en zona baja ({last_rsi})")
 
-    # --- Evaluación SHORT ---
-    if last_rsi >= 68:
-        score_short += 40
-        signals_short.append(f"RSI sobrecompra ({last_rsi})")
-    elif ema_fast < ema_slow and 35 <= last_rsi <= 55:
-        score_short += 35
-        signals_short.append("Tendencia bajista (EMA9 < EMA21)")
-        if volume_ratio >= 1.2:
-            score_short += 15
-            signals_short.append(f"Volumen bajista ({volume_ratio}x)")
-
-    # Selección de dirección predominante
-    if score_long >= score_short:
-        direction = "LONG"
-        net_score = score_long
-        active_signals = signals_long
-    else:
-        direction = "SHORT"
-        net_score = score_short
-        active_signals = signals_short
+    # Condición 2: Impulso alcista de tendencia (Trend Following)
+    if ema_fast > ema_slow:
+        score += 30
+        signals.append("Tendencia alcista (EMA9 > EMA21)")
+        if 45 <= last_rsi <= 65:
+            score += 20
+            signals.append("RSI en zona óptima de impulso")
+    
+    # Condición 3: Confirmación de volumen
+    if volume_ratio >= 1.3:
+        score += 15
+        signals.append(f"Volumen destacado ({volume_ratio}x)")
 
     return {
         "ok": True,
@@ -81,7 +68,6 @@ def evaluate_strategy(symbol="SOLUSDT", interval="15m"):
         "ema_fast": float(ema_fast),
         "ema_slow": float(ema_slow),
         "volume_ratio": volume_ratio,
-        "score": net_score,
-        "direction": direction,
-        "signals": active_signals,
+        "score": score,
+        "signals": signals,
     }
