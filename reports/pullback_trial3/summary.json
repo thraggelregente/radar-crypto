@@ -1,0 +1,334 @@
+{
+  "protocol": {
+    "trial": 3,
+    "capital": 16.48,
+    "interval_hours": 1,
+    "ema": [
+      20,
+      50,
+      200
+    ],
+    "ema50_slope_bars": 1,
+    "setup_expiry_bars": 3,
+    "stop_atr_margin": 0.25,
+    "minimum_stop_atr": 2,
+    "atr_reference": "confirmation closed bar",
+    "atr_period": 14,
+    "target_risk_multiple": 2,
+    "max_hold_hours": 24,
+    "risk_fraction": 0.005,
+    "exposure_cap": 0.3,
+    "order_cap": 5,
+    "max_positions": 1,
+    "daily_loss_limit": 0.02,
+    "drawdown_halt": 0.08,
+    "fee_per_side": 0.0005,
+    "slippage_per_side": 0.0005,
+    "spread_total": 0.001,
+    "rules": {
+      "SOL_USDT": [
+        1.09,
+        0.01
+      ],
+      "ETH_USDT": [
+        0.1,
+        4e-05
+      ],
+      "NEAR_USDT": [
+        0.054,
+        0.01
+      ],
+      "SUI_USDT": [
+        1.0,
+        1.0
+      ],
+      "AVAX_USDT": [
+        0.1,
+        0.0095
+      ]
+    },
+    "quantity_decimals_assumed": 8,
+    "tie_break": "alphabetical",
+    "ambiguous_bar": "stop first",
+    "entry": "next open after confirmation",
+    "btc_filter": false,
+    "scope": "exploratory reused history; no independent validation or LIVE approval"
+  },
+  "hashes": {
+    "SOL_USDT": "140ece798efc3065cf4bda4dff77f4b5c772d14d205953bf33bd3f723ca1df12",
+    "ETH_USDT": "f5b22aa178065ee2b76242837482d9eee3a0df158da27d769ad6c360aca07bd2",
+    "NEAR_USDT": "08d8c31fa1bfbf61ea4bedf089d7bef84a37ead9f3c6994f226341a73ab7abe4",
+    "SUI_USDT": "cc9f35820b67ce416b304109853864373f6a89bd5b1ff885fdb37c6bbc88947f",
+    "AVAX_USDT": "00589b0011740a0fd806a63b2dc511e1a527bf03779d228a3ce70ed502e0456f"
+  },
+  "source": "Binance public archive",
+  "approved_live": false,
+  "base": {
+    "start": 1724526000,
+    "end": 1790812800,
+    "trades": 116,
+    "final_usdt": 15.430950564866302,
+    "net_return_pct": -6.365591232607393,
+    "profit_factor": 0.7866288903784214,
+    "max_close_and_open_drawdown_pct": 8.068183055071188,
+    "win_rate_pct": 37.93103448275862,
+    "max_losing_streak": 9,
+    "halted": true,
+    "rejected": {
+      "buy_minimum": 1,
+      "sell_minimum": 47,
+      "invalid_stop": 0,
+      "risk_halt": 1506
+    },
+    "by_symbol": {
+      "SOL_USDT": {
+        "trades": 14,
+        "pnl_usdt": -0.2834784698074335
+      },
+      "ETH_USDT": {
+        "trades": 31,
+        "pnl_usdt": -0.734035175144822
+      },
+      "NEAR_USDT": {
+        "trades": 22,
+        "pnl_usdt": -0.693983617251452
+      },
+      "SUI_USDT": {
+        "trades": 15,
+        "pnl_usdt": 0.673534741323609
+      },
+      "AVAX_USDT": {
+        "trades": 34,
+        "pnl_usdt": -0.011086914253597757
+      }
+    },
+    "exit_counts": {
+      "stop": 57,
+      "time": 37,
+      "target": 22
+    }
+  },
+  "double_cost": {
+    "start": 1724526000,
+    "end": 1790812800,
+    "trades": 95,
+    "final_usdt": 15.28739563755662,
+    "net_return_pct": -7.236676956573918,
+    "profit_factor": 0.7037490706003222,
+    "max_close_and_open_drawdown_pct": 8.038983249954635,
+    "win_rate_pct": 36.8421052631579,
+    "max_losing_streak": 5,
+    "halted": true,
+    "rejected": {
+      "buy_minimum": 1,
+      "sell_minimum": 32,
+      "invalid_stop": 0,
+      "risk_halt": 1605
+    },
+    "by_symbol": {
+      "SOL_USDT": {
+        "trades": 12,
+        "pnl_usdt": -0.27879578305719965
+      },
+      "ETH_USDT": {
+        "trades": 24,
+        "pnl_usdt": -0.787138664257977
+      },
+      "NEAR_USDT": {
+        "trades": 16,
+        "pnl_usdt": -0.5487652143409538
+      },
+      "SUI_USDT": {
+        "trades": 15,
+        "pnl_usdt": 0.5328385728593978
+      },
+      "AVAX_USDT": {
+        "trades": 28,
+        "pnl_usdt": -0.11074327364666747
+      }
+    },
+    "exit_counts": {
+      "stop": 46,
+      "time": 30,
+      "target": 19
+    }
+  },
+  "entry_delay_1h": {
+    "start": 1724526000,
+    "end": 1790812800,
+    "trades": 106,
+    "final_usdt": 15.881261942876137,
+    "net_return_pct": -3.633119278664221,
+    "profit_factor": 0.8587372113516912,
+    "max_close_and_open_drawdown_pct": 8.44182636730707,
+    "win_rate_pct": 36.79245283018868,
+    "max_losing_streak": 9,
+    "halted": true,
+    "rejected": {
+      "buy_minimum": 2,
+      "sell_minimum": 45,
+      "invalid_stop": 0,
+      "risk_halt": 1525
+    },
+    "by_symbol": {
+      "SOL_USDT": {
+        "trades": 15,
+        "pnl_usdt": -0.2508846929837141
+      },
+      "ETH_USDT": {
+        "trades": 26,
+        "pnl_usdt": -0.5045484636607993
+      },
+      "NEAR_USDT": {
+        "trades": 23,
+        "pnl_usdt": -0.5366958192229419
+      },
+      "SUI_USDT": {
+        "trades": 13,
+        "pnl_usdt": 0.6600175207374355
+      },
+      "AVAX_USDT": {
+        "trades": 29,
+        "pnl_usdt": 0.03337339800616279
+      }
+    },
+    "exit_counts": {
+      "stop": 46,
+      "time": 41,
+      "target": 19
+    }
+  },
+  "folds": [
+    {
+      "start": 1724526000,
+      "end": 1746619200,
+      "trades": 116,
+      "final_usdt": 15.430950564866302,
+      "net_return_pct": -6.365591232607393,
+      "profit_factor": 0.7866288903784214,
+      "max_close_and_open_drawdown_pct": 8.068183055071188,
+      "win_rate_pct": 37.93103448275862,
+      "max_losing_streak": 9,
+      "halted": true,
+      "rejected": {
+        "buy_minimum": 1,
+        "sell_minimum": 47,
+        "invalid_stop": 0,
+        "risk_halt": 163
+      },
+      "by_symbol": {
+        "SOL_USDT": {
+          "trades": 14,
+          "pnl_usdt": -0.2834784698074335
+        },
+        "ETH_USDT": {
+          "trades": 31,
+          "pnl_usdt": -0.734035175144822
+        },
+        "NEAR_USDT": {
+          "trades": 22,
+          "pnl_usdt": -0.693983617251452
+        },
+        "SUI_USDT": {
+          "trades": 15,
+          "pnl_usdt": 0.673534741323609
+        },
+        "AVAX_USDT": {
+          "trades": 34,
+          "pnl_usdt": -0.011086914253597757
+        }
+      }
+    },
+    {
+      "start": 1746619200,
+      "end": 1768716000,
+      "trades": 81,
+      "final_usdt": 15.397263852118305,
+      "net_return_pct": -6.570000897340378,
+      "profit_factor": 0.7020049551758544,
+      "max_close_and_open_drawdown_pct": 8.388303708127786,
+      "win_rate_pct": 35.80246913580247,
+      "max_losing_streak": 8,
+      "halted": true,
+      "rejected": {
+        "buy_minimum": 0,
+        "sell_minimum": 12,
+        "invalid_stop": 0,
+        "risk_halt": 317
+      },
+      "by_symbol": {
+        "SOL_USDT": {
+          "trades": 20,
+          "pnl_usdt": -0.6911760329184367
+        },
+        "ETH_USDT": {
+          "trades": 31,
+          "pnl_usdt": 0.22291773424075
+        },
+        "NEAR_USDT": {
+          "trades": 13,
+          "pnl_usdt": -0.39200799940963016
+        },
+        "SUI_USDT": {
+          "trades": 1,
+          "pnl_usdt": -0.07705963819938377
+        },
+        "AVAX_USDT": {
+          "trades": 16,
+          "pnl_usdt": -0.145410211594994
+        }
+      }
+    },
+    {
+      "start": 1768716000,
+      "end": 1790812800,
+      "trades": 102,
+      "final_usdt": 15.220935584323106,
+      "net_return_pct": -7.639953978621927,
+      "profit_factor": 0.6983907075966642,
+      "max_close_and_open_drawdown_pct": 8.029568555826462,
+      "win_rate_pct": 37.254901960784316,
+      "max_losing_streak": 6,
+      "halted": true,
+      "rejected": {
+        "buy_minimum": 0,
+        "sell_minimum": 0,
+        "invalid_stop": 0,
+        "risk_halt": 226
+      },
+      "by_symbol": {
+        "SOL_USDT": {
+          "trades": 16,
+          "pnl_usdt": -0.3154680077640728
+        },
+        "ETH_USDT": {
+          "trades": 21,
+          "pnl_usdt": -0.4254022360843104
+        },
+        "NEAR_USDT": {
+          "trades": 35,
+          "pnl_usdt": -0.14780827657069795
+        },
+        "SUI_USDT": {
+          "trades": 10,
+          "pnl_usdt": -0.2570807842763416
+        },
+        "AVAX_USDT": {
+          "trades": 20,
+          "pnl_usdt": -0.11330511098148266
+        }
+      }
+    }
+  ],
+  "limitations": [
+    "Reused research data, not blind OOS",
+    "Current user-reported minima applied to entire history",
+    "Base precision assumed 8 decimals; not verified Pionex",
+    "Stops modeled automatically; manual execution can be worse",
+    "Drawdown measured at hourly opens/closes, excludes intermediate price path",
+    "No Pionex book or fills",
+    "Trial selected after observing trial 2; not independent confirmation"
+  ],
+  "verification": "Passed cash reconciliation, chronology, reported minima, exact stop formula, 2R target and prefix invariance including ATR.",
+  "interpretation": "Trade sets differ because sizing, holding period, minimum eligibility and drawdown halt change. Improvement is not a matched-trade causal estimate."
+}
