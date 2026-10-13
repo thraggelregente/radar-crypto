@@ -1,0 +1,94 @@
+{
+  "source": "Pionex public API",
+  "authenticated": false,
+  "orders_sent": false,
+  "rules": [
+    {
+      "symbol": "AVAX_USDT_PERP",
+      "minNotional": "1",
+      "minSizeMarket": "0.1",
+      "baseStep": "0.1",
+      "basePrecision": 1,
+      "status": "TRADING"
+    },
+    {
+      "symbol": "BTC_USDT_PERP",
+      "minNotional": "1",
+      "minSizeMarket": "0.0001",
+      "baseStep": "0.0001",
+      "basePrecision": 4,
+      "status": "TRADING"
+    },
+    {
+      "symbol": "ETH_USDT_PERP",
+      "minNotional": "1",
+      "minSizeMarket": "0.001",
+      "baseStep": "0.001",
+      "basePrecision": 3,
+      "status": "TRADING"
+    },
+    {
+      "symbol": "LTC_USDT_PERP",
+      "minNotional": "1",
+      "minSizeMarket": "0.001",
+      "baseStep": "0.001",
+      "basePrecision": 3,
+      "status": "TRADING"
+    },
+    {
+      "symbol": "NEAR_USDT_PERP",
+      "minNotional": "1",
+      "minSizeMarket": "1",
+      "baseStep": "1",
+      "basePrecision": 0,
+      "status": "TRADING"
+    },
+    {
+      "symbol": "SOL_USDT_PERP",
+      "minNotional": "1",
+      "minSizeMarket": "0.01",
+      "baseStep": "0.01",
+      "basePrecision": 2,
+      "status": "TRADING"
+    },
+    {
+      "symbol": "SUI_USDT_PERP",
+      "minNotional": "1",
+      "minSizeMarket": "0.1",
+      "baseStep": "0.1",
+      "basePrecision": 1,
+      "status": "TRADING"
+    }
+  ],
+  "candles": {
+    "SOL_USDT_PERP": {
+      "rows": 1000,
+      "gaps": 0,
+      "start_utc": "2026-09-01T15:00:00+00:00",
+      "end_utc": "2026-10-13T06:00:00+00:00",
+      "latest_close": "108.665",
+      "last_candle_may_be_open": true
+    },
+    "LTC_USDT_PERP": {
+      "rows": 1000,
+      "gaps": 0,
+      "start_utc": "2026-09-01T15:00:00+00:00",
+      "end_utc": "2026-10-13T06:00:00+00:00",
+      "latest_close": "62.35",
+      "last_candle_may_be_open": true
+    }
+  },
+  "funding_LTC": {
+    "records": 500,
+    "recent_30d_records": 90,
+    "negative_records_30d": 8,
+    "sum_rates_30d_pct": 0.5932547300000001,
+    "latest_rate_pct": 0.00395235,
+    "note": "Sum of observed rates per constant contract notional, before fees/basis/margin effects; not return on capital or managed product APR."
+  },
+  "failed_queries": [
+    "SOL funding connection failed",
+    "all-contract order-book connection failed"
+  ],
+  "next_requirement": "Longer history, funding alignment and mark-price/margin model; 41.7 days is insufficient validation."
+}
