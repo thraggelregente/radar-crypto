@@ -49,12 +49,16 @@ jobs:
         if: always()
         run: |
           echo "=== BACKTEST RESULTS ==="
-          if [ -f research/results.json ]; then cat research/results.json; else echo "No results file produced."; fi
+          if [ -f research/results_v2.json ]; then
+            cat research/results_v2.json
+          else
+            echo "No results file produced."
+          fi
 
       - name: Upload results artifact
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: backtest-results
-          path: research/results.json
+          path: research/results_v2.json
           if-no-files-found: warn
