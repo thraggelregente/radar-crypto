@@ -1,62 +1,60 @@
-name: Run backtest (conda stable - ccxt via pip)
+name: Run backtest
 
 on:
   workflow_dispatch: {}
   push:
     branches: [ 'experiment/vectorbt-btc-1h' ]
-  schedule:
-    - cron: '0 6 * * *'
+  # schedule: solo corre en la rama por defecto; descomentá cuando esté mergeado a main
+  # schedule:
+  #   - cron: '0 6 * * *'
+
+permissions:
+  contents: read
 
 jobs:
   run-backtest:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        shell: bash -el {0}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Miniconda (install only)
-        uses: conda-incubator/setup-miniconda@v2
+      - name: Set up Miniconda
+        uses: conda-incubator/setup-miniconda@v3
         with:
-          auto-update-conda: true
+          python-version: "3.10"
+          channels: conda-forge
+          channel-priority: strict
+          activate-environment: research-env
 
-      - name: Create research env with conda (conda-forge)
-        shell: bash -l {0}
+      - name: Install dependencies
         run: |
-          conda create -y -n research-env -c conda-forge python=3.10 numpy pandas matplotlib vectorbt
-          conda run -n research-env python -m pip install --upgrade pip
+          conda install -y -c conda-forge \
+            "numpy<2" pandas matplotlib "plotly=5.24.1" vectorbt
+          pip install ccxt python-dotenv requests
 
-      - name: Install ccxt (pip inside env)
-        shell: bash -l {0}
+      - name: Debug versions
         run: |
-          conda run -n research-env pip install ccxt
-
-      - name: Install any extra pip deps inside env
-        shell: bash -l {0}
-        run: |
-          conda run -n research-env pip install python-dotenv requests
-
-      - name: Show python & packages (debug)
-        shell: bash -l {0}
-        run: |
-          conda run -n research-env python -c "import sys, platform; print(sys.version); print('platform:', platform.platform())"
-          conda run -n research-env python -c "import numpy,pandas,vectorbt,ccxt; print('OK imports')"
+          python -c "import sys; print('python', sys.version)"
+          python -c "import vectorbt as vbt, plotly; print('vectorbt', vbt.__version__); print('plotly', plotly.__version__)"
+          conda list | grep -E 'vectorbt|plotly|numpy|numba|pandas'
 
       - name: Run backtest
-        shell: bash -l {0}
-        run: |
-          conda run -n research-env python research/compare.py
+        run: python research/compare.py
 
-      - name: Show results (if present)
+      - name: Show results
+        if: always()
         run: |
           echo "=== BACKTEST RESULTS ==="
-          if [ -f research/results.json ]; then
-            cat research/results.json
-          else
-            echo "No results file produced."
-          fi
+          if [ -f research/results.json ]; then cat research/results.json; else echo "No results file produced."; fi
 
       - name: Upload results artifact
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: backtest-results
           path: research/results.json
+          if-no-files-found: warn
