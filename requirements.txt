@@ -1,5 +1,10 @@
+# requirements for research prototype
 requests
 pandas
+numpy
 python-dotenv
 flask
 gunicorn
+ccxt
+vectorbt
+matplotlib
