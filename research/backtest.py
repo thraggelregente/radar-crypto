@@ -24,24 +24,13 @@ def safe_float(value, default=0.0):
 
 
 def fetch_ohlcv(symbol: str = "BTC/USDT", timeframe: str = "1h", limit: int = 2000):
-    """Download OHLCV from several exchanges with fallback.
-
-    Order of attempts:
-      1) Binance public data-api (data-api.binance.vision)
-      2) Binance normal
-      3) KuCoin
-      4) OKX
-      5) Local CSV (if present)
-
-    Returns a pandas.DataFrame or raises the last exception if all fail.
-    """
     file_path = DATA_DIR / f"{symbol.replace('/', '_').lower()}_{timeframe}.csv"
     if os.getenv("BACKTEST_FORCE_LOCAL", "0") == "1" and file_path.exists():
         print(f"[fetch_ohlcv] BACKTEST_FORCE_LOCAL=1 -> using local file {file_path}")
         return pd.read_csv(file_path, index_col=0, parse_dates=True)
 
     if file_path.exists():
-        print(f"[fetch_ohlcv] Found cached file {file_path}, using it.")
+        print(f"[fetch_ohlcv] Cached file {file_path} exists; using it.")
         return pd.read_csv(file_path, index_col=0, parse_dates=True)
 
     attempts = [
@@ -68,59 +57,66 @@ def fetch_ohlcv(symbol: str = "BTC/USDT", timeframe: str = "1h", limit: int = 20
                 df[col] = pd.to_numeric(df[col], errors="coerce")
             df = df.dropna().sort_index()
             df.to_csv(file_path)
-            print(f"[fetch_ohlcv] Success from {name} — saved to {file_path}")
+            print(f"[fetch_ohlcv] Success from {name}; saved to {file_path}")
             return df
         except Exception as e:
             print(f"[fetch_ohlcv] {name} failed: {type(e).__name__}: {e}")
             last_exc = e
 
     if file_path.exists():
-        print(f"[fetch_ohlcv] Remote sources failed but found local file {file_path}, using it as fallback.")
         return pd.read_csv(file_path, index_col=0, parse_dates=True)
 
-    print("[fetch_ohlcv] All remote exchanges failed and no local file present. Raising last exception.")
     raise last_exc or RuntimeError("Failed to fetch OHLCV from any source and no local file found.")
-
-
-def rsi(series: pd.Series, period: int = 14):
-    delta = series.diff()
-    gain = delta.clip(lower=0)
-    loss = -delta.clip(upper=0)
-    avg_gain = gain.ewm(alpha=1 / period, min_periods=period, adjust=False).mean()
-    avg_loss = loss.ewm(alpha=1 / period, min_periods=period, adjust=False).mean()
-    rs = avg_gain / avg_loss.replace(0, np.nan)
-    out = 100 - 100 / (1 + rs)
-    out[(avg_loss == 0) & (avg_gain > 0)] = 100.0
-    out[(avg_loss == 0) & (avg_gain == 0)] = 50.0
-    return out
 
 
 def ema(series: pd.Series, span: int):
     return series.ewm(span=span, adjust=False).mean()
 
 
-def backtest_strategy(df: pd.DataFrame, strategy_name: str):
-    price = df["Close"]
-    rsi14 = rsi(price, 14)
-    ema_fast = ema(price, 9)
-    ema_slow = ema(price, 21)
+def atr(high: pd.Series, low: pd.Series, close: pd.Series, period: int = 14):
+    hl = high - low
+    hc = (high - close.shift(1)).abs()
+    lc = (low - close.shift(1)).abs()
+    true_range = pd.concat([hl, hc, lc], axis=1).max(axis=1)
+    return true_range.ewm(alpha=1 / period, min_periods=period, adjust=False).mean()
 
-    if strategy_name == "ema_cross":
-        entry = (ema_fast > ema_slow) & (ema_fast.shift(1) <= ema_slow.shift(1))
-        exit_ = (ema_fast < ema_slow) & (ema_fast.shift(1) >= ema_slow.shift(1))
-    elif strategy_name == "rsi_ema":
-        entry = (rsi14 < 35) & (ema_fast > ema_slow)
-        exit_ = (rsi14 > 70) | (ema_fast < ema_slow)
-    elif strategy_name == "pullback":
-        entry = (rsi14 < 45) & (ema_fast > ema_slow) & (price > ema_fast)
-        exit_ = (rsi14 > 65) | (ema_fast < ema_slow)
-    else:
-        raise ValueError(f"Unknown strategy: {strategy_name}")
 
-    entries = entry.to_numpy()
-    exits = exit_.to_numpy()
+def trend_breakout_strategy(df: pd.DataFrame):
+    close = df["Close"]
+    high = df["High"]
+    low = df["Low"]
+
+    ema_fast = ema(close, 20)
+    ema_slow = ema(close, 50)
+    atr14 = atr(high, low, close, period=14)
+    atr_med = atr14.rolling(50, min_periods=20).median()
+
+    trend_long = ema_fast > ema_slow
+    trend_short = ema_fast < ema_slow
+
+    rolling_high = close.rolling(20, min_periods=10).max()
+    rolling_low = close.rolling(20, min_periods=10).min()
+
+    long_entry = (
+        (close > rolling_high.shift(1))
+        & trend_long
+        & (atr14 > atr_med * 0.9)
+    )
+
+    short_entry = (
+        (close < rolling_low.shift(1))
+        & trend_short
+        & (atr14 > atr_med * 0.9)
+    )
+
+    long_exit = ema_fast < ema_slow
+    short_exit = ema_fast > ema_slow
+
+    entries = np.where(long_entry.to_numpy(), 1, np.where(short_entry.to_numpy(), -1, 0))
+    exits = np.where(long_exit.to_numpy(), 1, np.where(short_exit.to_numpy(), -1, 0))
+
     pf = vbt.Portfolio.from_signals(
-        price,
+        close,
         entries=entries,
         exits=exits,
         init_cash=10000,
@@ -138,7 +134,6 @@ def backtest_strategy(df: pd.DataFrame, strategy_name: str):
     win_rate = safe_float(stats.get("Win Rate [%]", 0.0))
     profit_factor = safe_float(stats.get("Profit Factor", 0.0))
 
-    # Guard against false metrics when there are no trades
     if trade_count == 0:
         sharpe = 0.0
         max_dd = 0.0
@@ -146,7 +141,7 @@ def backtest_strategy(df: pd.DataFrame, strategy_name: str):
         profit_factor = 0.0
 
     return {
-        "strategy": strategy_name,
+        "strategy": "trend_breakout",
         "total_return": total_return,
         "cagr": cagr,
         "sharpe": sharpe,
@@ -157,8 +152,7 @@ def backtest_strategy(df: pd.DataFrame, strategy_name: str):
     }
 
 
-def walkforward_backtest(df: pd.DataFrame, strategy_name: str, folds: int = 4):
-    """Evaluate a strategy in rolling train/test windows."""
+def walkforward_backtest(df: pd.DataFrame, strategy_fn, folds: int = 4):
     n = len(df)
     if n < 500:
         raise ValueError(f"Not enough rows for walk-forward validation: {n} < 500")
@@ -185,8 +179,8 @@ def walkforward_backtest(df: pd.DataFrame, strategy_name: str, folds: int = 4):
 
         train = df.iloc[:train_end]
         test = df.iloc[test_start:test_end]
-        train_res = backtest_strategy(train, strategy_name)
-        test_res = backtest_strategy(test, strategy_name)
+        train_res = strategy_fn(train)
+        test_res = strategy_fn(test)
 
         folds_out.append({
             "fold": i + 1,
@@ -230,29 +224,15 @@ def summarize_walkforward(results):
 
 def main():
     df = fetch_ohlcv("BTC/USDT", "1h", 2000)
-    strategies = ["ema_cross", "rsi_ema", "pullback"]
-    out = {}
+    results = walkforward_backtest(df, trend_breakout_strategy, folds=4)
+    summary = summarize_walkforward(results)
+    payload = {"trend_breakout": {"walkforward": results, "summary": summary}}
 
-    for strategy_name in strategies:
-        folds = walkforward_backtest(df, strategy_name, folds=4)
-        out[strategy_name] = {
-            "walkforward": folds,
-            "summary": summarize_walkforward(folds),
-        }
-
-    output_path = Path(__file__).resolve().parent / "results.json"
+    output_path = Path(__file__).resolve().parent / "results_v2.json"
     with open(output_path, "w", encoding="utf-8") as f:
-        json.dump(out, f, indent=2, ensure_ascii=False)
+        json.dump(payload, f, indent=2, ensure_ascii=False)
 
-    for strategy_name, payload in out.items():
-        summary = payload["summary"]
-        print(
-            f"{strategy_name}: windows={summary['windows']} | "
-            f"positive={summary['positive_windows']} | "
-            f"avg_return={summary['avg_total_return']:.2%} | "
-            f"avg_sharpe={summary['avg_sharpe']:.2f} | "
-            f"avg_dd={summary['avg_max_drawdown']:.2f}%"
-        )
+    print(json.dumps(payload, indent=2, ensure_ascii=False))
 
 
 if __name__ == "__main__":
