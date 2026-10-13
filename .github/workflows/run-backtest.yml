@@ -1,4 +1,4 @@
-name: Run backtest (conda/mamba stable - fix channels)
+name: Run backtest (conda stable)
 
 on:
   workflow_dispatch: {}
@@ -18,12 +18,13 @@ jobs:
         uses: conda-incubator/setup-miniconda@v2
         with:
           auto-update-conda: true
-          use-mamba: true
 
-      - name: Create research env with mamba (conda-forge)
+      - name: Create research env with conda (conda-forge)
         shell: bash -l {0}
         run: |
-          mamba create -y -n research-env -c conda-forge python=3.10 numpy pandas matplotlib ccxt vectorbt
+          # Use conda create (works reliably even if mamba isn't available)
+          conda create -y -n research-env -c conda-forge python=3.10 numpy pandas matplotlib ccxt vectorbt
+          # ensure pip is present and upgraded in the env
           conda run -n research-env python -m pip install --upgrade pip
 
       - name: Install any extra pip deps inside env
