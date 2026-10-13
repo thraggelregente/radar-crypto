@@ -1,0 +1,78 @@
+{
+  "protocol": {
+    "trial": 4,
+    "capital": 16.38048824,
+    "symbols": [
+      "SOL_USDT_PERP",
+      "LTC_USDT_PERP"
+    ],
+    "interval_seconds": 3600,
+    "strategy": "Symmetric 20-hour channel breakout with EMA50/200 trend and volume confirmation",
+    "ema": [
+      50,
+      200
+    ],
+    "channel_bars": 20,
+    "volume_ratio_minimum": 1.2,
+    "atr_period": 14,
+    "stop_atr": 2,
+    "target_atr": 3,
+    "max_hold_hours": 48,
+    "risk_per_trade": 0.005,
+    "nominal_exposure_cap": 0.3,
+    "order_nominal_cap": 5,
+    "positions": 1,
+    "daily_loss_limit": 0.02,
+    "drawdown_halt": 0.08,
+    "assumed_leverage": 1,
+    "fee_per_side": 0.0005,
+    "slippage_per_side": 0.0005,
+    "spread_total": 0.001,
+    "entry": "Next hour open after closed signal; skip opening already beyond intended stop",
+    "priority": "Greater channel excess divided by ATR, then symbol",
+    "funding": "Actual historical settlements, long pays positive funding and short receives",
+    "ambiguous_bar": "Stop first",
+    "validation": "Exploratory only; no LIVE approval",
+    "limitations": [
+      "Historical order rules approximated by current rules",
+      "Hourly prices do not reconstruct fills or manual exit delay",
+      "Synthetic 1x margin, not exchange liquidation or maintenance-margin model",
+      "No optimization, no blind holdout yet"
+    ]
+  },
+  "hashes": {
+    "klines_SOL_USDT_PERP.json": "768516dbd48b4e855720970436646a6eb20285138630fe165cc990d271598312",
+    "older_SOL_USDT_PERP.json": "514f16a543ba873bf5a2bdc0b99ed4273682c36e7e7774a312adb0804826bd08",
+    "funding_SOL_USDT_PERP.json": "25b51b03c10c2f3896a3ecec841296418f7317c9545362e34bbfa88752f602fa",
+    "klines_LTC_USDT_PERP.json": "8ed000808c87bcdbbef62bf490a5b4747f00300eef597871109f4f8ed797a3dd",
+    "older_LTC_USDT_PERP.json": "fed1c844688325e3769306761d802fbd9a6eef7621bf8edba9ff8b4580bec4a1",
+    "funding_LTC_USDT_PERP.json": "5f374a59835f0417033e84e1c91aa361c62129e1f478c0e8efe320e41a99268a"
+  },
+  "source": "Pionex public API",
+  "history_hours": 999,
+  "evaluated_hours": 698,
+  "base": {
+    "trades": 25,
+    "final_usdt": 16.210430915776584,
+    "return_pct": -1.0381700577651087,
+    "drawdown_estimate_pct": 2.9662030006766593,
+    "profit_factor": 0.8400170206562968,
+    "funding_net_usdt": -0.004539098484581,
+    "halted": false,
+    "skipped": 0
+  },
+  "double_cost": {
+    "trades": 25,
+    "final_usdt": 16.044455178900005,
+    "return_pct": -2.0514227425738385,
+    "drawdown_estimate_pct": 2.984194265205664,
+    "profit_factor": 0.6677710796593282,
+    "funding_net_usdt": -0.004238405440016001,
+    "halted": false,
+    "skipped": 0
+  },
+  "approved_live": false,
+  "verification": "Passed synthetic LONG/SHORT cash reconciliation, funding sign, stop-first ambiguity handling, next-bar chronology and prefix invariance. Synthetic tests do not establish profitability.",
+  "pilot_only": true,
+  "next_step": "Acquire 180-365 days with --download-days, verify funding coverage and pagination, reserve independent evaluation; model actual margin/mark and exit delay before any LIVE decision."
+}
