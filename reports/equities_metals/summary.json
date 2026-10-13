@@ -1,0 +1,1217 @@
+{
+  "purpose": "Exploratory research, not strategy validation or real-account simulation",
+  "fixed_rule": "Daily SMA50>SMA200 and close>SMA50 -> long; close<SMA50 -> cash; next positive-volume open",
+  "cost_assumption": "0.1% fee plus 0.05% adverse fill per side for all assets, including gold as conservative assumption; stress doubles both",
+  "paper_account": "1000 USDT independently per asset, 100% allocation, fractional units, no leverage",
+  "balance_feasibility": {
+    "balance": 16.38048824,
+    "previous_exposure_cap_percent": 30,
+    "max_nominal": 4.914146472,
+    "API_minimum_USDT": 10,
+    "fits_previous_exposure_cap": false
+  },
+  "manifest": {
+    "NVDAX": {
+      "path": "research_details/stock_catalog/nvda_daily.json",
+      "sha256": "e668d0f6bfb749e8fb6cb1bac956cb24e030c2f17b99e927b987d86b6903e78b",
+      "bars": 468,
+      "start": "2025-07-02",
+      "end": "2026-10-12",
+      "excluded_invalid_OHLC_dates": [],
+      "zero_volume": 21,
+      "missing_calendar_days": 0
+    },
+    "AAPLX": {
+      "path": "research_details/stock_catalog/daily_AAPLX.json",
+      "sha256": "28f62f9970344d363b4a0e6ad836b75e4bfbd8bd08e4b165f5e73d07ebb0260c",
+      "bars": 463,
+      "start": "2025-07-07",
+      "end": "2026-10-12",
+      "excluded_invalid_OHLC_dates": [],
+      "zero_volume": 29,
+      "missing_calendar_days": 0
+    },
+    "GOOGLX": {
+      "path": "research_details/stock_catalog/daily_GOOGLX.json",
+      "sha256": "19c1012f192f703861abe47606ecfa70480bbea06d65507fc4f239788903fe16",
+      "bars": 459,
+      "start": "2025-07-11",
+      "end": "2026-10-12",
+      "excluded_invalid_OHLC_dates": [],
+      "zero_volume": 20,
+      "missing_calendar_days": 0
+    },
+    "AMZNX": {
+      "path": "research_details/stock_catalog/daily_AMZNX.json",
+      "sha256": "6c2a324255f6ff5782f0099a67ad5ea219714c80171905044222c41e8b0daae2",
+      "bars": 433,
+      "start": "2025-08-06",
+      "end": "2026-10-12",
+      "excluded_invalid_OHLC_dates": [],
+      "zero_volume": 37,
+      "missing_calendar_days": 0
+    },
+    "METAX": {
+      "path": "research_details/stock_catalog/daily_METAX.json",
+      "sha256": "4c2f096fb19267745a2184c584d7952923bf2757e293a889da134aeff5adf32e",
+      "bars": 433,
+      "start": "2025-08-06",
+      "end": "2026-10-12",
+      "excluded_invalid_OHLC_dates": [],
+      "zero_volume": 41,
+      "missing_calendar_days": 0
+    },
+    "TSLAX": {
+      "path": "research_details/stock_catalog/daily_TSLAX.json",
+      "sha256": "21ac4d0757b2c85da8f075dc28e0c39bbd5b6602ed2d2a0095d6caa716ae5267",
+      "bars": 468,
+      "start": "2025-07-02",
+      "end": "2026-10-12",
+      "excluded_invalid_OHLC_dates": [],
+      "zero_volume": 21,
+      "missing_calendar_days": 0
+    },
+    "CRCLX": {
+      "path": "research_details/stock_catalog/daily_CRCLX.json",
+      "sha256": "40ad587220d473bc17cfb0dbfe544d1da9811fcf2e91f7bd700f296b95e85586",
+      "bars": 468,
+      "start": "2025-07-02",
+      "end": "2026-10-12",
+      "excluded_invalid_OHLC_dates": [],
+      "zero_volume": 26,
+      "missing_calendar_days": 0
+    },
+    "BMNRX": {
+      "path": "research_details/stock_catalog/daily_BMNRX.json",
+      "sha256": "c099f6db75b05d91bebfb00c2f8d94284b4c56b17b0c67bdb98b7251ede0f9a9",
+      "bars": 425,
+      "start": "2025-08-14",
+      "end": "2026-10-12",
+      "excluded_invalid_OHLC_dates": [],
+      "zero_volume": 105,
+      "missing_calendar_days": 0
+    },
+    "SPYX": {
+      "path": "research_details/stock_catalog/daily_SPYX.json",
+      "sha256": "fd2c91e8dad6e45590dbd38f12876c6df24e1e15511d10867176d560a6a75d83",
+      "bars": 468,
+      "start": "2025-07-02",
+      "end": "2026-10-12",
+      "excluded_invalid_OHLC_dates": [],
+      "zero_volume": 20,
+      "missing_calendar_days": 0
+    },
+    "QQQX": {
+      "path": "research_details/stock_catalog/daily_QQQX.json",
+      "sha256": "18e1fdad231b858e16b9a9fcdf15fd29911c3d28fb22fc7d12c5c10d17145b3c",
+      "bars": 459,
+      "start": "2025-07-11",
+      "end": "2026-10-12",
+      "excluded_invalid_OHLC_dates": [],
+      "zero_volume": 20,
+      "missing_calendar_days": 0
+    },
+    "PAXG": {
+      "path": "research_details/stock_catalog/full_daily_PAXG.json",
+      "sha256": "ee95368d308b791bf59b456b194b67891f58bb96a89adb29232b2788bbcf6779",
+      "bars": 1996,
+      "start": "2021-04-23",
+      "end": "2026-10-12",
+      "excluded_invalid_OHLC_dates": [
+        "2023-06-03",
+        "2023-06-22",
+        "2023-08-02"
+      ],
+      "zero_volume": 0,
+      "missing_calendar_days": 3
+    },
+    "XAUT": {
+      "path": "research_details/stock_catalog/full_daily_XAUT.json",
+      "sha256": "36364ca2e0350a66e30becbbdfdfdb93a8cdb000651cd72bb984066e8e2242db",
+      "bars": 774,
+      "start": "2024-08-30",
+      "end": "2026-10-12",
+      "excluded_invalid_OHLC_dates": [],
+      "zero_volume": 0,
+      "missing_calendar_days": 0
+    },
+    "SLVX": {
+      "path": "research_details/stock_catalog/daily_SLVX.json",
+      "sha256": "a63b4464b8b24d0f9fddec3ff5031607da668dbfe33288e7ebd68f6b60306822",
+      "bars": 403,
+      "start": "2025-09-05",
+      "end": "2026-10-12",
+      "excluded_invalid_OHLC_dates": [],
+      "zero_volume": 101,
+      "missing_calendar_days": 0
+    }
+  },
+  "results": [
+    {
+      "symbol": "NVDAX",
+      "initial_conflicting_signal_rule_common_window": {
+        "return_percent": -14.496692544578071,
+        "max_close_drawdown_percent": 27.4807824011684,
+        "buy_hold_same_window_percent": 28.05604141602811,
+        "buy_hold_max_close_drawdown_percent": 19.549314722946264,
+        "trades": 24,
+        "wins": 10,
+        "annual": [
+          {
+            "year": "2026",
+            "return_percent": -14.496692544578071,
+            "start": "2026-04-01",
+            "end": "2026-10-12"
+          }
+        ],
+        "tested_from": "2026-04-01",
+        "tested_to": "2026-10-12"
+      },
+      "full_history": {
+        "return_percent": -26.453077531348267,
+        "max_close_drawdown_percent": 28.43362005217982,
+        "buy_hold_same_window_percent": 20.216156066686054,
+        "buy_hold_max_close_drawdown_percent": 19.549314722946264,
+        "trades": 11,
+        "wins": 3,
+        "annual": [
+          {
+            "year": "2026",
+            "return_percent": -26.453077531348267,
+            "start": "2026-01-17",
+            "end": "2026-10-12"
+          }
+        ],
+        "tested_from": "2026-01-17",
+        "tested_to": "2026-10-12"
+      },
+      "common_window_from_2026_04_01": {
+        "return_percent": -14.50348828913568,
+        "max_close_drawdown_percent": 25.406849674189502,
+        "buy_hold_same_window_percent": 28.05604141602811,
+        "buy_hold_max_close_drawdown_percent": 19.549314722946264,
+        "trades": 7,
+        "wins": 3,
+        "annual": [
+          {
+            "year": "2026",
+            "return_percent": -14.50348828913568,
+            "start": "2026-04-01",
+            "end": "2026-10-12"
+          }
+        ],
+        "tested_from": "2026-04-01",
+        "tested_to": "2026-10-12"
+      },
+      "common_window_double_costs": {
+        "return_percent": -16.28019740489709,
+        "max_close_drawdown_percent": 26.075177211564903,
+        "buy_hold_same_window_percent": 27.67244829786417,
+        "buy_hold_max_close_drawdown_percent": 19.549314722946264,
+        "trades": 7,
+        "wins": 2,
+        "annual": [
+          {
+            "year": "2026",
+            "return_percent": -16.28019740489709,
+            "start": "2026-04-01",
+            "end": "2026-10-12"
+          }
+        ],
+        "tested_from": "2026-04-01",
+        "tested_to": "2026-10-12"
+      }
+    },
+    {
+      "symbol": "AAPLX",
+      "initial_conflicting_signal_rule_common_window": {
+        "return_percent": 0.2862343004342405,
+        "max_close_drawdown_percent": 15.70387855460067,
+        "buy_hold_same_window_percent": 33.74183139208926,
+        "buy_hold_max_close_drawdown_percent": 12.16066042228926,
+        "trades": 21,
+        "wins": 8,
+        "annual": [
+          {
+            "year": "2026",
+            "return_percent": 0.2862343004342405,
+            "start": "2026-04-01",
+            "end": "2026-10-12"
+          }
+        ],
+        "tested_from": "2026-04-01",
+        "tested_to": "2026-10-12"
+      },
+      "full_history": {
+        "return_percent": -10.370564028495178,
+        "max_close_drawdown_percent": 19.26611192540073,
+        "buy_hold_same_window_percent": 37.09062649397244,
+        "buy_hold_max_close_drawdown_percent": 12.16066042228926,
+        "trades": 11,
+        "wins": 1,
+        "annual": [
+          {
+            "year": "2026",
+            "return_percent": -10.370564028495178,
+            "start": "2026-01-22",
+            "end": "2026-10-12"
+          }
+        ],
+        "tested_from": "2026-01-22",
+        "tested_to": "2026-10-12"
+      },
+      "common_window_from_2026_04_01": {
+        "return_percent": -4.437158359589288,
+        "max_close_drawdown_percent": 17.465317292241757,
+        "buy_hold_same_window_percent": 33.74183139208926,
+        "buy_hold_max_close_drawdown_percent": 12.16066042228926,
+        "trades": 8,
+        "wins": 1,
+        "annual": [
+          {
+            "year": "2026",
+            "return_percent": -4.437158359589288,
+            "start": "2026-04-01",
+            "end": "2026-10-12"
+          }
+        ],
+        "tested_from": "2026-04-01",
+        "tested_to": "2026-10-12"
+      },
+      "common_window_double_costs": {
+        "return_percent": -6.703367241077219,
+        "max_close_drawdown_percent": 19.180476427964933,
+        "buy_hold_same_window_percent": 33.34120643472409,
+        "buy_hold_max_close_drawdown_percent": 12.16066042228926,
+        "trades": 8,
+        "wins": 1,
+        "annual": [
+          {
+            "year": "2026",
+            "return_percent": -6.703367241077219,
+            "start": "2026-04-01",
+            "end": "2026-10-12"
+          }
+        ],
+        "tested_from": "2026-04-01",
+        "tested_to": "2026-10-12"
+      }
+    },
+    {
+      "symbol": "GOOGLX",
+      "initial_conflicting_signal_rule_common_window": {
+        "return_percent": -3.067760848111778,
+        "max_close_drawdown_percent": 27.20712244836555,
+        "buy_hold_same_window_percent": 21.752037457930463,
+        "buy_hold_max_close_drawdown_percent": 20.930981519100232,
+        "trades": 33,
+        "wins": 8,
+        "annual": [
+          {
+            "year": "2026",
+            "return_percent": -3.067760848111778,
+            "start": "2026-04-01",
+            "end": "2026-10-12"
+          }
+        ],
+        "tested_from": "2026-04-01",
+        "tested_to": "2026-10-12"
+      },
+      "full_history": {
+        "return_percent": -1.944085733372014,
+        "max_close_drawdown_percent": 20.70990670343944,
+        "buy_hold_same_window_percent": 7.580825578519246,
+        "buy_hold_max_close_drawdown_percent": 21.475735993771817,
+        "trades": 7,
+        "wins": 1,
+        "annual": [
+          {
+            "year": "2026",
+            "return_percent": -1.944085733372014,
+            "start": "2026-01-26",
+            "end": "2026-10-12"
+          }
+        ],
+        "tested_from": "2026-01-26",
+        "tested_to": "2026-10-12"
+      },
+      "common_window_from_2026_04_01": {
+        "return_percent": 1.4089814826080183,
+        "max_close_drawdown_percent": 20.709906703439383,
+        "buy_hold_same_window_percent": 21.752037457930463,
+        "buy_hold_max_close_drawdown_percent": 20.930981519100232,
+        "trades": 6,
+        "wins": 1,
+        "annual": [
+          {
+            "year": "2026",
+            "return_percent": 1.4089814826080183,
+            "start": "2026-04-01",
+            "end": "2026-10-12"
+          }
+        ],
+        "tested_from": "2026-04-01",
+        "tested_to": "2026-10-12"
+      },
+      "common_window_double_costs": {
+        "return_percent": -0.4000531940439922,
+        "max_close_drawdown_percent": 21.890384451699852,
+        "buy_hold_same_window_percent": 21.38732804496668,
+        "buy_hold_max_close_drawdown_percent": 20.930981519100232,
+        "trades": 6,
+        "wins": 1,
+        "annual": [
+          {
+            "year": "2026",
+            "return_percent": -0.4000531940439922,
+            "start": "2026-04-01",
+            "end": "2026-10-12"
+          }
+        ],
+        "tested_from": "2026-04-01",
+        "tested_to": "2026-10-12"
+      }
+    },
+    {
+      "symbol": "AMZNX",
+      "initial_conflicting_signal_rule_common_window": {
+        "return_percent": -24.426400710815,
+        "max_close_drawdown_percent": 27.137563401886368,
+        "buy_hold_same_window_percent": 23.694037669718938,
+        "buy_hold_max_close_drawdown_percent": 17.306642402183805,
+        "trades": 31,
+        "wins": 7,
+        "annual": [
+          {
+            "year": "2026",
+            "return_percent": -24.426400710815,
+            "start": "2026-04-01",
+            "end": "2026-10-12"
+          }
+        ],
+        "tested_from": "2026-04-01",
+        "tested_to": "2026-10-12"
+      },
+      "full_history": {
+        "return_percent": -12.240811470569103,
+        "max_close_drawdown_percent": 15.389125696404049,
+        "buy_hold_same_window_percent": 23.411294976821818,
+        "buy_hold_max_close_drawdown_percent": 17.306642402183805,
+        "trades": 7,
+        "wins": 0,
+        "annual": [
+          {
+            "year": "2026",
+            "return_percent": -12.240811470569103,
+            "start": "2026-02-21",
+            "end": "2026-10-12"
+          }
+        ],
+        "tested_from": "2026-02-21",
+        "tested_to": "2026-10-12"
+      },
+      "common_window_from_2026_04_01": {
+        "return_percent": -12.240811470569103,
+        "max_close_drawdown_percent": 15.389125696404049,
+        "buy_hold_same_window_percent": 23.694037669718938,
+        "buy_hold_max_close_drawdown_percent": 17.306642402183805,
+        "trades": 7,
+        "wins": 0,
+        "annual": [
+          {
+            "year": "2026",
+            "return_percent": -12.240811470569103,
+            "start": "2026-04-01",
+            "end": "2026-10-12"
+          }
+        ],
+        "tested_from": "2026-04-01",
+        "tested_to": "2026-10-12"
+      },
+      "common_window_double_costs": {
+        "return_percent": -14.064541434890643,
+        "max_close_drawdown_percent": 16.898498962945574,
+        "buy_hold_same_window_percent": 23.32351097622334,
+        "buy_hold_max_close_drawdown_percent": 17.306642402183805,
+        "trades": 7,
+        "wins": 0,
+        "annual": [
+          {
+            "year": "2026",
+            "return_percent": -14.064541434890643,
+            "start": "2026-04-01",
+            "end": "2026-10-12"
+          }
+        ],
+        "tested_from": "2026-04-01",
+        "tested_to": "2026-10-12"
+      }
+    },
+    {
+      "symbol": "METAX",
+      "initial_conflicting_signal_rule_common_window": {
+        "return_percent": 0.7483133748599213,
+        "max_close_drawdown_percent": 7.450495368402077,
+        "buy_hold_same_window_percent": 28.24528390273786,
+        "buy_hold_max_close_drawdown_percent": 20.956401484824227,
+        "trades": 1,
+        "wins": 1,
+        "annual": [
+          {
+            "year": "2026",
+            "return_percent": 0.7483133748599213,
+            "start": "2026-04-01",
+            "end": "2026-10-12"
+          }
+        ],
+        "tested_from": "2026-04-01",
+        "tested_to": "2026-10-12"
+      },
+      "full_history": {
+        "return_percent": 0.7483133748599213,
+        "max_close_drawdown_percent": 7.450495368402077,
+        "buy_hold_same_window_percent": 12.994959114450388,
+        "buy_hold_max_close_drawdown_percent": 22.02983284611347,
+        "trades": 1,
+        "wins": 1,
+        "annual": [
+          {
+            "year": "2026",
+            "return_percent": 0.7483133748599213,
+            "start": "2026-02-21",
+            "end": "2026-10-12"
+          }
+        ],
+        "tested_from": "2026-02-21",
+        "tested_to": "2026-10-12"
+      },
+      "common_window_from_2026_04_01": {
+        "return_percent": 0.7483133748599213,
+        "max_close_drawdown_percent": 7.450495368402077,
+        "buy_hold_same_window_percent": 28.24528390273786,
+        "buy_hold_max_close_drawdown_percent": 20.956401484824227,
+        "trades": 1,
+        "wins": 1,
+        "annual": [
+          {
+            "year": "2026",
+            "return_percent": 0.7483133748599213,
+            "start": "2026-04-01",
+            "end": "2026-10-12"
+          }
+        ],
+        "tested_from": "2026-04-01",
+        "tested_to": "2026-10-12"
+      },
+      "common_window_double_costs": {
+        "return_percent": 0.4465208217724115,
+        "max_close_drawdown_percent": 7.450495368402055,
+        "buy_hold_same_window_percent": 27.86112390686346,
+        "buy_hold_max_close_drawdown_percent": 20.956401484824227,
+        "trades": 1,
+        "wins": 1,
+        "annual": [
+          {
+            "year": "2026",
+            "return_percent": 0.4465208217724115,
+            "start": "2026-04-01",
+            "end": "2026-10-12"
+          }
+        ],
+        "tested_from": "2026-04-01",
+        "tested_to": "2026-10-12"
+      }
+    },
+    {
+      "symbol": "TSLAX",
+      "initial_conflicting_signal_rule_common_window": {
+        "return_percent": 0.0,
+        "max_close_drawdown_percent": 0,
+        "buy_hold_same_window_percent": 0.22422313743788447,
+        "buy_hold_max_close_drawdown_percent": 33.66208496965369,
+        "trades": 0,
+        "wins": 0,
+        "annual": [
+          {
+            "year": "2026",
+            "return_percent": 0.0,
+            "start": "2026-04-01",
+            "end": "2026-10-12"
+          }
+        ],
+        "tested_from": "2026-04-01",
+        "tested_to": "2026-10-12"
+      },
+      "full_history": {
+        "return_percent": 0.0,
+        "max_close_drawdown_percent": 0,
+        "buy_hold_same_window_percent": -14.087959049266608,
+        "buy_hold_max_close_drawdown_percent": 33.77881724022719,
+        "trades": 0,
+        "wins": 0,
+        "annual": [
+          {
+            "year": "2026",
+            "return_percent": 0.0,
+            "start": "2026-01-17",
+            "end": "2026-10-12"
+          }
+        ],
+        "tested_from": "2026-01-17",
+        "tested_to": "2026-10-12"
+      },
+      "common_window_from_2026_04_01": {
+        "return_percent": 0.0,
+        "max_close_drawdown_percent": 0,
+        "buy_hold_same_window_percent": 0.22422313743788447,
+        "buy_hold_max_close_drawdown_percent": 33.66208496965369,
+        "trades": 0,
+        "wins": 0,
+        "annual": [
+          {
+            "year": "2026",
+            "return_percent": 0.0,
+            "start": "2026-04-01",
+            "end": "2026-10-12"
+          }
+        ],
+        "tested_from": "2026-04-01",
+        "tested_to": "2026-10-12"
+      },
+      "common_window_double_costs": {
+        "return_percent": 0.0,
+        "max_close_drawdown_percent": 0,
+        "buy_hold_same_window_percent": -0.0759994982435841,
+        "buy_hold_max_close_drawdown_percent": 33.66208496965369,
+        "trades": 0,
+        "wins": 0,
+        "annual": [
+          {
+            "year": "2026",
+            "return_percent": 0.0,
+            "start": "2026-04-01",
+            "end": "2026-10-12"
+          }
+        ],
+        "tested_from": "2026-04-01",
+        "tested_to": "2026-10-12"
+      }
+    },
+    {
+      "symbol": "CRCLX",
+      "initial_conflicting_signal_rule_common_window": {
+        "return_percent": -34.52651617688317,
+        "max_close_drawdown_percent": 36.9796779282338,
+        "buy_hold_same_window_percent": -16.56673520028655,
+        "buy_hold_max_close_drawdown_percent": 54.05899839926823,
+        "trades": 10,
+        "wins": 3,
+        "annual": [
+          {
+            "year": "2026",
+            "return_percent": -34.52651617688317,
+            "start": "2026-04-01",
+            "end": "2026-10-12"
+          }
+        ],
+        "tested_from": "2026-04-01",
+        "tested_to": "2026-10-12"
+      },
+      "full_history": {
+        "return_percent": -28.645617733315575,
+        "max_close_drawdown_percent": 28.645617733315575,
+        "buy_hold_same_window_percent": 3.2060377599907985,
+        "buy_hold_max_close_drawdown_percent": 54.48572723153602,
+        "trades": 4,
+        "wins": 0,
+        "annual": [
+          {
+            "year": "2026",
+            "return_percent": -28.645617733315575,
+            "start": "2026-01-17",
+            "end": "2026-10-12"
+          }
+        ],
+        "tested_from": "2026-01-17",
+        "tested_to": "2026-10-12"
+      },
+      "common_window_from_2026_04_01": {
+        "return_percent": -28.645617733315575,
+        "max_close_drawdown_percent": 28.645617733315575,
+        "buy_hold_same_window_percent": -16.56673520028655,
+        "buy_hold_max_close_drawdown_percent": 54.05899839926823,
+        "trades": 4,
+        "wins": 0,
+        "annual": [
+          {
+            "year": "2026",
+            "return_percent": -28.645617733315575,
+            "start": "2026-04-01",
+            "end": "2026-10-12"
+          }
+        ],
+        "tested_from": "2026-04-01",
+        "tested_to": "2026-10-12"
+      },
+      "common_window_double_costs": {
+        "return_percent": -29.496754774123968,
+        "max_close_drawdown_percent": 29.496754774123968,
+        "buy_hold_same_window_percent": -16.81666035687599,
+        "buy_hold_max_close_drawdown_percent": 54.05899839926823,
+        "trades": 4,
+        "wins": 0,
+        "annual": [
+          {
+            "year": "2026",
+            "return_percent": -29.496754774123968,
+            "start": "2026-04-01",
+            "end": "2026-10-12"
+          }
+        ],
+        "tested_from": "2026-04-01",
+        "tested_to": "2026-10-12"
+      }
+    },
+    {
+      "symbol": "BMNRX",
+      "initial_conflicting_signal_rule_common_window": {
+        "return_percent": 7.412928804698105,
+        "max_close_drawdown_percent": 14.222255969763653,
+        "buy_hold_same_window_percent": 17.205876527779672,
+        "buy_hold_max_close_drawdown_percent": 42.628620838737575,
+        "trades": 2,
+        "wins": 1,
+        "annual": [
+          {
+            "year": "2026",
+            "return_percent": 7.412928804698105,
+            "start": "2026-04-01",
+            "end": "2026-10-12"
+          }
+        ],
+        "tested_from": "2026-04-01",
+        "tested_to": "2026-10-12"
+      },
+      "full_history": {
+        "return_percent": 7.556688637545705,
+        "max_close_drawdown_percent": 14.107452339688054,
+        "buy_hold_same_window_percent": 21.81544167701064,
+        "buy_hold_max_close_drawdown_percent": 44.17332772402188,
+        "trades": 1,
+        "wins": 1,
+        "annual": [
+          {
+            "year": "2026",
+            "return_percent": 7.556688637545705,
+            "start": "2026-03-01",
+            "end": "2026-10-12"
+          }
+        ],
+        "tested_from": "2026-03-01",
+        "tested_to": "2026-10-12"
+      },
+      "common_window_from_2026_04_01": {
+        "return_percent": 7.556688637545705,
+        "max_close_drawdown_percent": 14.107452339688054,
+        "buy_hold_same_window_percent": 17.205876527779672,
+        "buy_hold_max_close_drawdown_percent": 42.628620838737575,
+        "trades": 1,
+        "wins": 1,
+        "annual": [
+          {
+            "year": "2026",
+            "return_percent": 7.556688637545705,
+            "start": "2026-04-01",
+            "end": "2026-10-12"
+          }
+        ],
+        "tested_from": "2026-04-01",
+        "tested_to": "2026-10-12"
+      },
+      "common_window_double_costs": {
+        "return_percent": 7.234501530107118,
+        "max_close_drawdown_percent": 14.107452339688031,
+        "buy_hold_same_window_percent": 16.85478518412047,
+        "buy_hold_max_close_drawdown_percent": 42.628620838737575,
+        "trades": 1,
+        "wins": 1,
+        "annual": [
+          {
+            "year": "2026",
+            "return_percent": 7.234501530107118,
+            "start": "2026-04-01",
+            "end": "2026-10-12"
+          }
+        ],
+        "tested_from": "2026-04-01",
+        "tested_to": "2026-10-12"
+      }
+    },
+    {
+      "symbol": "SPYX",
+      "initial_conflicting_signal_rule_common_window": {
+        "return_percent": -5.101448831725818,
+        "max_close_drawdown_percent": 10.217400906214923,
+        "buy_hold_same_window_percent": 18.946277202952878,
+        "buy_hold_max_close_drawdown_percent": 4.796703007320802,
+        "trades": 18,
+        "wins": 4,
+        "annual": [
+          {
+            "year": "2026",
+            "return_percent": -5.101448831725818,
+            "start": "2026-04-01",
+            "end": "2026-10-12"
+          }
+        ],
+        "tested_from": "2026-04-01",
+        "tested_to": "2026-10-12"
+      },
+      "full_history": {
+        "return_percent": -12.345844185814336,
+        "max_close_drawdown_percent": 13.163620727201153,
+        "buy_hold_same_window_percent": 12.152736846636959,
+        "buy_hold_max_close_drawdown_percent": 9.510347004965425,
+        "trades": 15,
+        "wins": 2,
+        "annual": [
+          {
+            "year": "2026",
+            "return_percent": -12.345844185814336,
+            "start": "2026-01-17",
+            "end": "2026-10-12"
+          }
+        ],
+        "tested_from": "2026-01-17",
+        "tested_to": "2026-10-12"
+      },
+      "common_window_from_2026_04_01": {
+        "return_percent": -6.494382844670266,
+        "max_close_drawdown_percent": 11.131630983988394,
+        "buy_hold_same_window_percent": 18.946277202952878,
+        "buy_hold_max_close_drawdown_percent": 4.796703007320802,
+        "trades": 10,
+        "wins": 2,
+        "annual": [
+          {
+            "year": "2026",
+            "return_percent": -6.494382844670266,
+            "start": "2026-04-01",
+            "end": "2026-10-12"
+          }
+        ],
+        "tested_from": "2026-04-01",
+        "tested_to": "2026-10-12"
+      },
+      "common_window_double_costs": {
+        "return_percent": -9.257896233885832,
+        "max_close_drawdown_percent": 13.498978089515523,
+        "buy_hold_same_window_percent": 18.589972472135475,
+        "buy_hold_max_close_drawdown_percent": 4.796703007320802,
+        "trades": 10,
+        "wins": 2,
+        "annual": [
+          {
+            "year": "2026",
+            "return_percent": -9.257896233885832,
+            "start": "2026-04-01",
+            "end": "2026-10-12"
+          }
+        ],
+        "tested_from": "2026-04-01",
+        "tested_to": "2026-10-12"
+      }
+    },
+    {
+      "symbol": "QQQX",
+      "initial_conflicting_signal_rule_common_window": {
+        "return_percent": -10.991282432672222,
+        "max_close_drawdown_percent": 22.933179516130252,
+        "buy_hold_same_window_percent": 28.016415046466435,
+        "buy_hold_max_close_drawdown_percent": 10.579939405314109,
+        "trades": 23,
+        "wins": 6,
+        "annual": [
+          {
+            "year": "2026",
+            "return_percent": -10.991282432672222,
+            "start": "2026-04-01",
+            "end": "2026-10-12"
+          }
+        ],
+        "tested_from": "2026-04-01",
+        "tested_to": "2026-10-12"
+      },
+      "full_history": {
+        "return_percent": -7.308281103018677,
+        "max_close_drawdown_percent": 17.352622064994684,
+        "buy_hold_same_window_percent": 19.493932856813178,
+        "buy_hold_max_close_drawdown_percent": 12.2235726800625,
+        "trades": 11,
+        "wins": 2,
+        "annual": [
+          {
+            "year": "2026",
+            "return_percent": -7.308281103018677,
+            "start": "2026-01-26",
+            "end": "2026-10-12"
+          }
+        ],
+        "tested_from": "2026-01-26",
+        "tested_to": "2026-10-12"
+      },
+      "common_window_from_2026_04_01": {
+        "return_percent": -5.4160785936033236,
+        "max_close_drawdown_percent": 17.352622064994673,
+        "buy_hold_same_window_percent": 28.016415046466435,
+        "buy_hold_max_close_drawdown_percent": 10.579939405314109,
+        "trades": 10,
+        "wins": 2,
+        "annual": [
+          {
+            "year": "2026",
+            "return_percent": -5.4160785936033236,
+            "start": "2026-04-01",
+            "end": "2026-10-12"
+          }
+        ],
+        "tested_from": "2026-04-01",
+        "tested_to": "2026-10-12"
+      },
+      "common_window_double_costs": {
+        "return_percent": -8.211460744569532,
+        "max_close_drawdown_percent": 19.31254936197452,
+        "buy_hold_same_window_percent": 27.63294062947812,
+        "buy_hold_max_close_drawdown_percent": 10.579939405314109,
+        "trades": 10,
+        "wins": 2,
+        "annual": [
+          {
+            "year": "2026",
+            "return_percent": -8.211460744569532,
+            "start": "2026-04-01",
+            "end": "2026-10-12"
+          }
+        ],
+        "tested_from": "2026-04-01",
+        "tested_to": "2026-10-12"
+      }
+    },
+    {
+      "symbol": "PAXG",
+      "initial_conflicting_signal_rule_common_window": {
+        "return_percent": -11.949646370601464,
+        "max_close_drawdown_percent": 11.949646370601464,
+        "buy_hold_same_window_percent": -11.251039451506074,
+        "buy_hold_max_close_drawdown_percent": 17.425439841236635,
+        "trades": 17,
+        "wins": 2,
+        "annual": [
+          {
+            "year": "2026",
+            "return_percent": -11.949646370601464,
+            "start": "2026-04-01",
+            "end": "2026-10-12"
+          }
+        ],
+        "tested_from": "2026-04-01",
+        "tested_to": "2026-10-12"
+      },
+      "full_history": {
+        "return_percent": 73.44133826712549,
+        "max_close_drawdown_percent": 15.189147051817864,
+        "buy_hold_same_window_percent": 128.9488448484089,
+        "buy_hold_max_close_drawdown_percent": 28.070526840042444,
+        "trades": 47,
+        "wins": 12,
+        "annual": [
+          {
+            "year": "2021",
+            "return_percent": 0.5976777914795672,
+            "start": "2021-11-08",
+            "end": "2021-12-31"
+          },
+          {
+            "year": "2022",
+            "return_percent": 0.21398585171577,
+            "start": "2022-01-01",
+            "end": "2022-12-31"
+          },
+          {
+            "year": "2023",
+            "return_percent": 6.920714162232788,
+            "start": "2023-01-01",
+            "end": "2023-12-31"
+          },
+          {
+            "year": "2024",
+            "return_percent": 6.863540953073022,
+            "start": "2024-01-01",
+            "end": "2024-12-31"
+          },
+          {
+            "year": "2025",
+            "return_percent": 33.858203097306294,
+            "start": "2025-01-01",
+            "end": "2025-12-31"
+          },
+          {
+            "year": "2026",
+            "return_percent": 12.48637523110714,
+            "start": "2026-01-01",
+            "end": "2026-10-12"
+          }
+        ],
+        "tested_from": "2021-11-08",
+        "tested_to": "2026-10-12"
+      },
+      "common_window_from_2026_04_01": {
+        "return_percent": -2.9884924540326097,
+        "max_close_drawdown_percent": 2.9884924540326097,
+        "buy_hold_same_window_percent": -11.251039451506074,
+        "buy_hold_max_close_drawdown_percent": 17.425439841236635,
+        "trades": 2,
+        "wins": 0,
+        "annual": [
+          {
+            "year": "2026",
+            "return_percent": -2.9884924540326097,
+            "start": "2026-04-01",
+            "end": "2026-10-12"
+          }
+        ],
+        "tested_from": "2026-04-01",
+        "tested_to": "2026-10-12"
+      },
+      "common_window_double_costs": {
+        "return_percent": -3.568819791884381,
+        "max_close_drawdown_percent": 3.568819791884381,
+        "buy_hold_same_window_percent": -11.516887826437527,
+        "buy_hold_max_close_drawdown_percent": 17.425439841236635,
+        "trades": 2,
+        "wins": 0,
+        "annual": [
+          {
+            "year": "2026",
+            "return_percent": -3.568819791884381,
+            "start": "2026-04-01",
+            "end": "2026-10-12"
+          }
+        ],
+        "tested_from": "2026-04-01",
+        "tested_to": "2026-10-12"
+      }
+    },
+    {
+      "symbol": "XAUT",
+      "initial_conflicting_signal_rule_common_window": {
+        "return_percent": -9.289392176746535,
+        "max_close_drawdown_percent": 10.311720950833536,
+        "buy_hold_same_window_percent": -10.9753373484207,
+        "buy_hold_max_close_drawdown_percent": 17.148494288681203,
+        "trades": 17,
+        "wins": 3,
+        "annual": [
+          {
+            "year": "2026",
+            "return_percent": -9.289392176746535,
+            "start": "2026-04-01",
+            "end": "2026-10-12"
+          }
+        ],
+        "tested_from": "2026-04-01",
+        "tested_to": "2026-10-12"
+      },
+      "full_history": {
+        "return_percent": 32.050783678060334,
+        "max_close_drawdown_percent": 16.090830780827325,
+        "buy_hold_same_window_percent": 38.92237777671688,
+        "buy_hold_max_close_drawdown_percent": 27.809847813105083,
+        "trades": 19,
+        "wins": 5,
+        "annual": [
+          {
+            "year": "2025",
+            "return_percent": 18.978821987623174,
+            "start": "2025-03-17",
+            "end": "2025-12-31"
+          },
+          {
+            "year": "2026",
+            "return_percent": 10.986797038381324,
+            "start": "2026-01-01",
+            "end": "2026-10-12"
+          }
+        ],
+        "tested_from": "2025-03-17",
+        "tested_to": "2026-10-12"
+      },
+      "common_window_from_2026_04_01": {
+        "return_percent": -3.8817271763995187,
+        "max_close_drawdown_percent": 3.8817271763995187,
+        "buy_hold_same_window_percent": -10.9753373484207,
+        "buy_hold_max_close_drawdown_percent": 17.148494288681203,
+        "trades": 3,
+        "wins": 0,
+        "annual": [
+          {
+            "year": "2026",
+            "return_percent": -3.8817271763995187,
+            "start": "2026-04-01",
+            "end": "2026-10-12"
+          }
+        ],
+        "tested_from": "2026-04-01",
+        "tested_to": "2026-10-12"
+      },
+      "common_window_double_costs": {
+        "return_percent": -4.742911994206434,
+        "max_close_drawdown_percent": 4.742911994206434,
+        "buy_hold_same_window_percent": -11.242011591684776,
+        "buy_hold_max_close_drawdown_percent": 17.148494288681203,
+        "trades": 3,
+        "wins": 0,
+        "annual": [
+          {
+            "year": "2026",
+            "return_percent": -4.742911994206434,
+            "start": "2026-04-01",
+            "end": "2026-10-12"
+          }
+        ],
+        "tested_from": "2026-04-01",
+        "tested_to": "2026-10-12"
+      }
+    },
+    {
+      "symbol": "SLVX",
+      "initial_conflicting_signal_rule_common_window": {
+        "return_percent": -9.319261815824476,
+        "max_close_drawdown_percent": 18.452762845181837,
+        "buy_hold_same_window_percent": -20.286461881000683,
+        "buy_hold_max_close_drawdown_percent": 36.619185680070586,
+        "trades": 13,
+        "wins": 6,
+        "annual": [
+          {
+            "year": "2026",
+            "return_percent": -9.319261815824476,
+            "start": "2026-04-01",
+            "end": "2026-10-12"
+          }
+        ],
+        "tested_from": "2026-04-01",
+        "tested_to": "2026-10-12"
+      },
+      "full_history": {
+        "return_percent": -16.323280639628457,
+        "max_close_drawdown_percent": 18.452762845181837,
+        "buy_hold_same_window_percent": -12.037562956621628,
+        "buy_hold_max_close_drawdown_percent": 36.619185680070586,
+        "trades": 4,
+        "wins": 0,
+        "annual": [
+          {
+            "year": "2026",
+            "return_percent": -16.323280639628457,
+            "start": "2026-03-23",
+            "end": "2026-10-12"
+          }
+        ],
+        "tested_from": "2026-03-23",
+        "tested_to": "2026-10-12"
+      },
+      "common_window_from_2026_04_01": {
+        "return_percent": -16.323280639628457,
+        "max_close_drawdown_percent": 18.452762845181837,
+        "buy_hold_same_window_percent": -20.286461881000683,
+        "buy_hold_max_close_drawdown_percent": 36.619185680070586,
+        "trades": 4,
+        "wins": 0,
+        "annual": [
+          {
+            "year": "2026",
+            "return_percent": -16.323280639628457,
+            "start": "2026-04-01",
+            "end": "2026-10-12"
+          }
+        ],
+        "tested_from": "2026-04-01",
+        "tested_to": "2026-10-12"
+      },
+      "common_window_double_costs": {
+        "return_percent": -17.32140231118541,
+        "max_close_drawdown_percent": 18.697038387608178,
+        "buy_hold_same_window_percent": -20.52524456012167,
+        "buy_hold_max_close_drawdown_percent": 36.619185680070586,
+        "trades": 4,
+        "wins": 0,
+        "annual": [
+          {
+            "year": "2026",
+            "return_percent": -17.32140231118541,
+            "start": "2026-04-01",
+            "end": "2026-10-12"
+          }
+        ],
+        "tested_from": "2026-04-01",
+        "tested_to": "2026-10-12"
+      }
+    }
+  ],
+  "earnings_examples": [
+    {
+      "symbol": "NVDAX",
+      "announcement_date": "2026-08-26",
+      "source": "https://nvidianews.nvidia.com/news/nvidia-announces-financial-results-for-second-quarter-fiscal-2027",
+      "reaction_day_UTC": "2026-08-27",
+      "reaction_open_to_close_percent": 3.0449448445619476,
+      "spy_reaction_percent": -0.0986398089502627,
+      "positive_reaction_and_outperformed_SPY": true,
+      "hypothetical_entry_UTC": "2026-08-28",
+      "hypothetical_exit_UTC": "2026-09-02",
+      "subsequent_5_calendar_days_net_percent": -4.021888813271746
+    },
+    {
+      "symbol": "AAPLX",
+      "announcement_date": "2026-07-30",
+      "source": "https://www.apple.com/newsroom/2026/07/apple-reports-third-quarter-results/",
+      "reaction_day_UTC": "2026-07-31",
+      "reaction_open_to_close_percent": -1.5897386687138026,
+      "spy_reaction_percent": 0.1626169229115071,
+      "positive_reaction_and_outperformed_SPY": false,
+      "hypothetical_entry_UTC": "2026-08-03",
+      "hypothetical_exit_UTC": "2026-08-10",
+      "subsequent_5_calendar_days_net_percent": 1.560556671784119
+    },
+    {
+      "symbol": "GOOGLX",
+      "announcement_date": "2026-07-22",
+      "source": "https://s206.q4cdn.com/479360582/files/doc_financials/2026/q2/2026q2-alphabet-earnings-release.pdf",
+      "reaction_day_UTC": "2026-07-23",
+      "reaction_open_to_close_percent": -3.478182037954791,
+      "spy_reaction_percent": -1.0186325426995824,
+      "positive_reaction_and_outperformed_SPY": false,
+      "hypothetical_entry_UTC": "2026-07-24",
+      "hypothetical_exit_UTC": "2026-07-29",
+      "subsequent_5_calendar_days_net_percent": 4.763350732547056
+    }
+  ],
+  "checks": "OHLC validity, unique bars, prefix invariance for completed trades, constant price zero-cost sanity passed",
+  "limitations": [
+    "Original entry allowed close below exit SMA50 and caused repeated re-entry; retained alongside corrected version requiring close above SMA50. This correction is not an independent validation.",
+    "Three invalid historical PAXG OHLC bars excluded and dates recorded; raw response unchanged.",
+    "Survivorship bias: currently identified tokens only.",
+    "Small and strongly regime-dependent equity sample; no statistical validation.",
+    "Common window chosen for history coverage, not performance.",
+    "UTC calendar bars include weekends; no fill allowed on zero-volume bars.",
+    "Daily OHLC cannot verify intraday fills or actual historical spread/slippage.",
+    "No audited underlying-price tracking comparison; corporate actions and token rewards excluded.",
+    "Maximum drawdown uses daily closes and can understate intraday risk.",
+    "No stop loss; full-allocation paper risk differs from prior 0.5% per-trade risk limits.",
+    "End positions liquidated for accounting; not a live exit signal.",
+    "Three earnings examples are diagnostic illustrations only, not a complete event backtest or independent validation.",
+    "No consensus-surprise or fundamental-news model tested."
+  ],
+  "data_archive": "daily_snapshots.json.gz.base64: base64 decode, gzip decompress to raw API response JSON."
+}
