@@ -28,14 +28,16 @@ def equity(state, prices, cfg):
 
 
 def update_limits(state, value, cfg, now=None):
-    day = datetime.fromtimestamp(now or time.time(), timezone.utc).date().isoformat()
+    stamp = time.time() if now is None else now
+    day = datetime.fromtimestamp(stamp, timezone.utc).date().isoformat()
     if state["day"] != day:
         state["day"], state["day_start"] = day, value
+        state["daily_block"] = False
     state["high_water"] = max(state["high_water"], value)
     if value < state["high_water"] * (1 - cfg.max_drawdown):
         state["halt"] = "Drawdown máximo: requiere revisión; /resume no borra este bloqueo"
     # Daily loss blocks buys; existing positions still have automatic exits.
-    state["daily_block"] = value < state["day_start"] * (1 - cfg.daily_loss)
+    state["daily_block"] = state.get("daily_block", False) or value <= state["day_start"] * (1 - cfg.daily_loss)
 
 
 def position_size(state, signal, rules, cfg, prices, free_usdt=None):
@@ -69,6 +71,7 @@ def evidence_gate(cfg, auto=False, now=None):
         base = r["oos"]
         checks = [r["source"] == "Pionex public API", r["fingerprint"] == cfg.fingerprint(),
                   r["approved"] is True, r["trials"] == 1, 0 <= now - r["generated"] <= 30 * 86400,
+                  0 <= now - r["data_end"] <= 7 * 86400,
                   r["history_days"] >= 180, base["trades"] >= 100, base["expectancy_lower_95"] > 0,
                   base["profit_factor"] >= 1.2, base["max_drawdown"] <= 0.10,
                   r["stress"]["net_return"] > 0, r["positive_folds"] >= 2]

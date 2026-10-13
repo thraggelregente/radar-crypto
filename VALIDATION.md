@@ -4,7 +4,7 @@ Base auditada: `3ea12c67a1f2c5dbf6cfe49e49730905ae8ffdd3`. Ejecución local de p
 
 ## Resultado técnico
 
-**47 pruebas offline aprobadas** mediante:
+**53 pruebas offline aprobadas** mediante:
 
 ```bash
 python -m unittest discover -s tests -v
@@ -37,6 +37,12 @@ Incluyen un ciclo completo de entrada automática paper y salida automática con
 | Calendario inactivo parece prueba forward | Informe requiere tiempo observado; no basta dejar pasar días. |
 
 También se verifican liquidez/impacto antes de comprar, precisión de importe del par y uso de `minTradeDumping` para ventas a mercado. El health server responde 503 si el worker no tiene datos válidos.
+
+## Reanudación del paso 3
+
+Se repitieron las 47 pruebas originales y se agregaron seis comprobaciones. La pausa diaria ahora es persistente durante el mismo día UTC aunque se recupere el precio, y se reinicia al día siguiente. El backtester registra la valoración de apertura y una estimación adversa intrabar para no ocultar caídas seguidas de recuperación. La estimación simultánea de mínimos no es un drawdown medido con ticks.
+
+Un informe recién generado no basta para aprobar historia vieja: el último dato debe terminar dentro de los siete días anteriores, tanto en el informe como en el gate de entrada real. Un manifest sin reglas de algún par se rechaza en vez de excluirlo silenciosamente. La descarga de 365 días volvió a fallar por conexión no confirmada; el backtest de mercado sigue pendiente. Los casos sintéticos son pruebas de comportamiento y no evidencia de rentabilidad.
 
 ## Limpieza y arquitectura
 

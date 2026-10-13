@@ -86,7 +86,9 @@ def simulate(dataset, rules, cfg, start=None, end=None):
     for i in range(start, end):
         now = dataset["BTC_USDT"][i]["time"]
         opening = {symbol: dataset[symbol][i]["open"] * (1 - half_spread) for symbol in symbols}
-        update_limits(s, equity(s, opening, cfg), cfg, now)
+        opening_value = equity(s, opening, cfg)
+        update_limits(s, opening_value, cfg, now)
+        curve.append(opening_value)  # Opening losses cannot disappear after an intrabar recovery.
         # Handle observable opening gaps before allocating capital to another entry.
         for symbol, p in list(s["positions"].items()):
             raw = dataset[symbol][i]["open"]
@@ -127,6 +129,16 @@ def simulate(dataset, rules, cfg, start=None, end=None):
             # Runtime takes at most one new entry per tick, but may take the next later in this same hour.
             # Conservative historical model: one new entry per hour.
             break
+        # Adverse synchronized intrabar marks are conservative OHLC estimates, not observed tick paths.
+        adverse = {}
+        for symbol in symbols:
+            mark = dataset[symbol][i]["low"] * (1 - half_spread)
+            if symbol in s["positions"]:
+                mark = max(mark, s["positions"][symbol]["stop"] * (1 - cfg.slippage))
+            adverse[symbol] = mark
+        adverse_value = equity(s, adverse, cfg)
+        curve.append(adverse_value)
+        update_limits(s, adverse_value, cfg, now + cfg.interval_sec // 2)
         for symbol, p in list(s["positions"].items()):
             bar = dataset[symbol][i]
             stop_hit = bar["low"] * (1 - half_spread) <= p["stop"]
@@ -174,6 +186,8 @@ def load_dataset(directory, cfg):
         raise ValueError("Series históricas no sincronizadas")
     if len(times) < cfg.slow + 102:
         raise ValueError("Muestra insuficiente")
+    if any(symbol not in manifest["rules"] for symbol in cfg.watchlist):
+        raise ValueError("Faltan reglas: no se excluyen pares silenciosamente del backtest")
     return aligned, manifest["rules"], manifest
 
 
@@ -194,14 +208,18 @@ def historical_report(dataset, rules, cfg, source="synthetic", dataset_hash=""):
     benchmark = statistics.mean(dataset[s][-1]["close"] / dataset[s][cut]["open"] - 1 for s in syms) if n > cut else 0
     benchmark = (1 + benchmark) * (1 - cfg.fee) ** 2 * (1 - cfg.slippage) ** 2 / (1 + cfg.max_spread) - 1
     positive = sum(f["net_return"] > 0 and f["trades"] >= 20 for f in folds)
-    approved = (source == "Pionex public API" and days >= 180 and base["trades"] >= 100
+    data_end = dataset["BTC_USDT"][-1]["time"] + cfg.interval_sec
+    approved = (source == "Pionex public API" and 0 <= time.time() - data_end <= 7 * 86400
+                and days >= 180 and base["trades"] >= 100
                 and base["expectancy_lower_95"] > 0 and base["profit_factor"] >= 1.2
                 and base["max_drawdown"] <= 0.10 and stress["net_return"] > 0 and positive >= 2)
     return {"source": source, "fingerprint": cfg.fingerprint(), "generated": time.time(), "trials": 1,
+            "data_end": data_end,
             "dataset_hash": dataset_hash, "history_days": days, "oos_days": (n-cut) / 24,
             "approved": approved, "oos": base, "stress": stress, "folds": folds, "positive_folds": positive,
             "benchmark_buy_hold_100pct": benchmark, "benchmark_buy_hold_30pct": benchmark * cfg.max_exposure,
             "limits": ["Fixed hypothesis; no parameter optimization or PBO/DSR computed", "OHLC cannot reconstruct order book or outages",
+                       "Adverse intrabar portfolio marks assume synchronized lows; not a measured tick drawdown",
                        "Historical symbol rules are approximated by current rules", "One entry/hour; stop-first for ambiguous bars",
                        "No real-market profitability claim for synthetic data"]}
 

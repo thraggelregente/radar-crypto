@@ -244,6 +244,56 @@ class RiskDataTests(Base):
             update_limits(s, 97, self.cfg, 1700000100)
         self.assertEqual(position_size(self.store.read(), signal(), RULE, self.cfg, {}), 0)
 
+    def test_daily_loss_pause_survives_same_day_recovery(self):
+        with self.store.transaction() as s:
+            update_limits(s, 100, self.cfg, 1700000000)
+            update_limits(s, 98, self.cfg, 1700000100)
+            update_limits(s, 101, self.cfg, 1700000200)
+        self.assertTrue(self.store.read()["daily_block"])
+
+    def test_daily_pause_resets_on_next_utc_day(self):
+        with self.store.transaction() as s:
+            update_limits(s, 100, self.cfg, 1700000000)
+            update_limits(s, 97, self.cfg, 1700000100)
+            update_limits(s, 101, self.cfg, 1700086400)
+        self.assertFalse(self.store.read()["daily_block"])
+
+    def test_epoch_zero_is_valid_clock(self):
+        with self.store.transaction() as s:
+            update_limits(s, 100, self.cfg, 0)
+        self.assertEqual(self.store.read()["day"], "1970-01-01")
+
+    def passing_evidence(self, cfg, now):
+        return {"source": "Pionex public API", "fingerprint": cfg.fingerprint(), "approved": True,
+                "trials": 1, "generated": now, "data_end": now, "history_days": 365,
+                "oos": {"trades": 150, "expectancy_lower_95": .01, "profit_factor": 1.5, "max_drawdown": .05},
+                "stress": {"net_return": .02}, "positive_folds": 3}
+
+    def test_fresh_report_with_old_market_data_is_rejected(self):
+        cfg = replace(self.cfg, live=True)
+        report = self.passing_evidence(cfg, 1700000000)
+        report["data_end"] -= 8 * 86400
+        with patch("risk.Path.read_text", return_value=json.dumps(report)):
+            self.assertFalse(evidence_gate(cfg, now=1700000000)[0])
+
+    def test_recent_data_with_matching_evidence_can_pass_semi_gate(self):
+        cfg = replace(self.cfg, live=True)
+        report = self.passing_evidence(cfg, 1700000000)
+        with patch("risk.Path.read_text", return_value=json.dumps(report)):
+            self.assertTrue(evidence_gate(cfg, now=1700000000)[0])
+
+    def test_backtest_marks_intrabar_risk_before_recovery(self):
+        cfg = replace(self.cfg, watchlist=("SOL_USDT",))
+        series = bars(302)
+        series[300].update(low=156.8, high=160.15, close=160)
+        data = {"SOL_USDT": deepcopy(series), "BTC_USDT": deepcopy(series)}
+        def candidate(symbol, history, btc, config):
+            return dict(signal(symbol), price=history[-1]["close"], bar=history[-1]["time"], atr=5, breakout_level=150)
+        with patch("backtest.analyze", side_effect=candidate):
+            result = simulate(data, {s: RULE for s in data}, cfg)
+        self.assertTrue(result["trade_log"])
+        self.assertGreater(result["max_drawdown"], .001)
+
     def test_persistent_drawdown_halt(self):
         with self.store.transaction() as s:
             update_limits(s, 90, self.cfg)
