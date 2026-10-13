@@ -1,5 +1,1 @@
-requests
-pandas
-python-dotenv
-flask
-gunicorn
+# Python 3.11+ standard library only. No third-party runtime dependencies.
