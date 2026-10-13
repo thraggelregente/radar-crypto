@@ -1,4 +1,4 @@
-name: Run backtest (conda/mamba)
+name: Run backtest (conda/mamba fixed)
 
 on:
   workflow_dispatch: {}
@@ -14,34 +14,41 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Miniconda
+      - name: Set up Miniconda (with mamba)
         uses: conda-incubator/setup-miniconda@v2
         with:
           auto-update-conda: true
           python-version: 3.10
           activate-environment: research-env
-          environment-file: ""
           use-mamba: true
-          mamba-channels: conda-forge
-          mamba-packages: python=3.10 numpy pandas matplotlib ccxt vectorbt -c conda-forge
+          channels: |
+            - conda-forge
 
-      - name: Show python & pip
+      - name: Create research env with mamba (conda-forge)
+        shell: bash -l {0}
         run: |
-          python --version
-          which python
-          pip --version
-          python -m pip list
+          # create env with required packages (conda-forge builds)
+          mamba create -y -n research-env -c conda-forge python=3.10 numpy pandas matplotlib ccxt vectorbt
+          # make sure pip is available and upgrade it
+          conda run -n research-env python -m pip install --upgrade pip
 
-      - name: Install any extra pip deps
+      - name: Install any extra pip deps inside env
+        shell: bash -l {0}
         run: |
-          python -m pip install --upgrade pip
-          pip install python-dotenv requests
+          conda run -n research-env pip install python-dotenv requests
+
+      - name: Show python & packages (debug)
+        shell: bash -l {0}
+        run: |
+          conda run -n research-env python -c "import sys, platform; print(sys.version); print('platform:', platform.platform())"
+          conda run -n research-env python -c "import numpy,pandas,vectorbt,ccxt; print('OK imports')"
 
       - name: Run backtest
+        shell: bash -l {0}
         run: |
-          python research/compare.py
+          conda run -n research-env python research/compare.py
 
-      - name: Show results
+      - name: Show results (if present)
         run: |
           echo "=== BACKTEST RESULTS ==="
           if [ -f research/results.json ]; then
