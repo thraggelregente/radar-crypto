@@ -1,4 +1,4 @@
-name: Run backtest (conda stable)
+name: Run backtest (conda stable - ccxt via pip)
 
 on:
   workflow_dispatch: {}
@@ -22,10 +22,13 @@ jobs:
       - name: Create research env with conda (conda-forge)
         shell: bash -l {0}
         run: |
-          # Use conda create (works reliably even if mamba isn't available)
-          conda create -y -n research-env -c conda-forge python=3.10 numpy pandas matplotlib ccxt vectorbt
-          # ensure pip is present and upgraded in the env
+          conda create -y -n research-env -c conda-forge python=3.10 numpy pandas matplotlib vectorbt
           conda run -n research-env python -m pip install --upgrade pip
+
+      - name: Install ccxt (pip inside env)
+        shell: bash -l {0}
+        run: |
+          conda run -n research-env pip install ccxt
 
       - name: Install any extra pip deps inside env
         shell: bash -l {0}
