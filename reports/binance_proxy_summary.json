@@ -1,0 +1,98 @@
+[
+  {
+    "scenario": "reported_14_22_min10",
+    "capital": 14.22,
+    "assumed_minimum": 10.0,
+    "source": "Binance public archive",
+    "approved": false,
+    "history_days": 1095.9583333333333,
+    "oos_days": 767.2083333333334,
+    "oos": {
+      "trades": 0,
+      "net_return": 0.0,
+      "profit_factor": 0.0,
+      "expectancy": 0.0,
+      "expectancy_lower_95": -1.0,
+      "max_drawdown": 0.0,
+      "win_rate": 0.0,
+      "missed_entries_risk_or_minimum": 837
+    },
+    "stress": {
+      "trades": 0,
+      "net_return": 0.0,
+      "profit_factor": 0.0,
+      "expectancy": 0.0,
+      "expectancy_lower_95": -1.0,
+      "max_drawdown": 0.0,
+      "win_rate": 0.0,
+      "missed_entries_risk_or_minimum": 89
+    },
+    "benchmark_30pct": -0.045021915567388215,
+    "benchmark_100pct": -0.15007305189129405,
+    "positive_folds": 0
+  },
+  {
+    "scenario": "counterfactual_14_22_min1",
+    "capital": 14.22,
+    "assumed_minimum": 1.0,
+    "source": "Binance public archive",
+    "approved": false,
+    "history_days": 1095.9583333333333,
+    "oos_days": 767.2083333333334,
+    "oos": {
+      "trades": 103,
+      "net_return": -0.05482284448917063,
+      "profit_factor": 0.8149054540437496,
+      "expectancy": -0.0035149101200497015,
+      "expectancy_lower_95": -0.012453475676755053,
+      "max_drawdown": 0.08013330003084673,
+      "win_rate": 0.3592233009708738,
+      "missed_entries_risk_or_minimum": 639
+    },
+    "stress": {
+      "trades": 50,
+      "net_return": 0.0005579726779414429,
+      "profit_factor": 1.0043211504316818,
+      "expectancy": 0.00011539513127902201,
+      "expectancy_lower_95": -0.014472119511926985,
+      "max_drawdown": 0.05399849916048349,
+      "win_rate": 0.44,
+      "missed_entries_risk_or_minimum": 0
+    },
+    "benchmark_30pct": -0.045021915567388215,
+    "benchmark_100pct": -0.15007305189129405,
+    "positive_folds": 1
+  },
+  {
+    "scenario": "hypothetical_100_min10",
+    "capital": 100.0,
+    "assumed_minimum": 10.0,
+    "source": "Binance public archive",
+    "approved": false,
+    "history_days": 1095.9583333333333,
+    "oos_days": 767.2083333333334,
+    "oos": {
+      "trades": 66,
+      "net_return": -0.06377264213287115,
+      "profit_factor": 0.6772292969322788,
+      "expectancy": -0.007816828311211985,
+      "expectancy_lower_95": -0.0167343100587993,
+      "max_drawdown": 0.08266511968058099,
+      "win_rate": 0.3181818181818182,
+      "missed_entries_risk_or_minimum": 714
+    },
+    "stress": {
+      "trades": 0,
+      "net_return": 0.0,
+      "profit_factor": 0.0,
+      "expectancy": 0.0,
+      "expectancy_lower_95": -1.0,
+      "max_drawdown": 0.0,
+      "win_rate": 0.0,
+      "missed_entries_risk_or_minimum": 89
+    },
+    "benchmark_30pct": -0.045021915567388215,
+    "benchmark_100pct": -0.15007305189129405,
+    "positive_folds": 1
+  }
+]

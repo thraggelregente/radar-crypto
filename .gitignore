@@ -1,0 +1,15 @@
+.env
+data/
+history/
+history_*/
+research_details/
+*.sqlite3*
+*.lock
+__pycache__/
+*.pyc
+trade_state.json*
+*_log.csv
+validation.json
+forward_validation.json
+pionex_public_snapshot.json
+datos_radar.zip
