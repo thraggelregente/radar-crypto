@@ -1,11 +1,11 @@
-name: Run backtest
+name: Run backtest (conda/mamba)
 
 on:
   workflow_dispatch: {}
   push:
     branches: [ 'experiment/vectorbt-btc-1h' ]
   schedule:
-    - cron: '0 6 * * *' # daily at 06:00 UTC
+    - cron: '0 6 * * *'
 
 jobs:
   run-backtest:
@@ -14,21 +14,34 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - name: Set up Miniconda
+        uses: conda-incubator/setup-miniconda@v2
         with:
-          python-version: '3.10'
+          auto-update-conda: true
+          python-version: 3.10
+          activate-environment: research-env
+          environment-file: ""
+          use-mamba: true
+          mamba-channels: conda-forge
+          mamba-packages: python=3.10 numpy pandas matplotlib ccxt vectorbt -c conda-forge
 
-      - name: Install dependencies
+      - name: Show python & pip
+        run: |
+          python --version
+          which python
+          pip --version
+          python -m pip list
+
+      - name: Install any extra pip deps
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install python-dotenv requests
 
       - name: Run backtest
         run: |
           python research/compare.py
 
-      - name: Show results (if present)
+      - name: Show results
         run: |
           echo "=== BACKTEST RESULTS ==="
           if [ -f research/results.json ]; then
