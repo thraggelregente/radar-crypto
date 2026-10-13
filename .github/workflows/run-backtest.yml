@@ -1,4 +1,4 @@
-name: Run backtest (conda/mamba fixed)
+name: Run backtest (conda/mamba stable)
 
 on:
   workflow_dispatch: {}
@@ -14,12 +14,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Miniconda (with mamba)
+      - name: Set up Miniconda (install only)
         uses: conda-incubator/setup-miniconda@v2
         with:
           auto-update-conda: true
           python-version: 3.10
-          activate-environment: research-env
           use-mamba: true
           channels: |
             - conda-forge
@@ -27,9 +26,9 @@ jobs:
       - name: Create research env with mamba (conda-forge)
         shell: bash -l {0}
         run: |
-          # create env with required packages (conda-forge builds)
+          # create the env explicitly; be explicit about packages
           mamba create -y -n research-env -c conda-forge python=3.10 numpy pandas matplotlib ccxt vectorbt
-          # make sure pip is available and upgrade it
+          # ensure pip is present and updated in the env
           conda run -n research-env python -m pip install --upgrade pip
 
       - name: Install any extra pip deps inside env
