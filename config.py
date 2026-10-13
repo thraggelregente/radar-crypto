@@ -24,7 +24,7 @@ class Config:
     persistent_storage: bool = False
     local_stop_ack: bool = False
     watchlist: tuple = ("SOL_USDT", "ETH_USDT", "NEAR_USDT", "SUI_USDT", "AVAX_USDT")
-    capital: float = 100.0
+    capital: float = 14.22
     order_cap: float = 5.0
     fee: float = 0.0005
     slippage: float = 0.0005
@@ -61,7 +61,7 @@ class Config:
     api_secret: str = ""
 
     @classmethod
-    def from_env(cls):
+    def from_env(cls, research=False):
         load_env()
         e = os.environ
         live = e.get("LIVE_TRADING", "false").strip().lower() == "true"
@@ -69,13 +69,16 @@ class Config:
                   data_dir=e.get("DATA_DIR", "data"),
                   persistent_storage=e.get("PERSISTENT_STORAGE", "false").lower() == "true",
                   local_stop_ack=e.get("ACK_LOCAL_STOPS", "false").lower() == "true",
-                  capital=float(e.get("BOT_CAPITAL_USDT", "100")), order_cap=float(e.get("ORDER_USDT", "5")),
+                  capital=float(e.get("BOT_CAPITAL_USDT", "14.22")), order_cap=float(e.get("ORDER_USDT", "5")),
                   fee=float(e.get("FEE_RATE", "0.0005")), slippage=float(e.get("SLIPPAGE_RATE", "0.0005")),
                   validation_file=e.get("VALIDATION_FILE", "validation.json"), forward_file=e.get("FORWARD_FILE", "forward_validation.json"),
                   token=e.get("TELEGRAM_BOT_TOKEN", "").strip(), chat_id=e.get("TELEGRAM_CHAT_ID", "").strip(),
                   allowed_users=tuple(x.strip() for x in e.get("TELEGRAM_USER_IDS", e.get("TELEGRAM_CHAT_ID", "")).split(",") if x.strip()),
                   api_key=e.get("PIONEX_API_KEY", "").strip().strip('"').strip("'"),
                   api_secret=e.get("PIONEX_API_SECRET", "").strip().strip('"').strip("'"))
+        if research:
+            from dataclasses import replace
+            obj = replace(obj, live=False, entry_mode="auto", token="", api_key="", api_secret="")
         obj.validate()
         return obj
 

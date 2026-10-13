@@ -4,7 +4,7 @@ Base auditada: `3ea12c67a1f2c5dbf6cfe49e49730905ae8ffdd3`. Ejecución local de p
 
 ## Resultado técnico
 
-**53 pruebas offline aprobadas** mediante:
+**61 pruebas offline aprobadas** mediante:
 
 ```bash
 python -m unittest discover -s tests -v
@@ -52,9 +52,11 @@ Separados configuración, HTTP, datos, estrategia, riesgo, SQLite, ejecución y 
 
 ## Resultado financiero
 
-**Rentabilidad real: no evaluada / no aprobada.** La consulta pública de velas/símbolos devolvió HTTP 403 desde este entorno; el intento posterior con el descargador tampoco pudo confirmar la conexión. La ausencia de datos no se reemplazó por velas inventadas. No se presenta un Sharpe, CAGR, tasa de acierto o retorno histórico de mercado.
+**Ejecución real en Pionex: no aprobada.** La consulta pública de velas/símbolos devolvió HTTP 403 o conexión no confirmada. Posteriormente sí se descargaron históricos oficiales de Binance: 216 archives con checksum y 26.304 velas por par. La evaluación exploratoria con datos reales y supuestos de ejecución rechazó la primera hipótesis: [PROXY_RESULTS.md](PROXY_RESULTS.md). No se enviaron órdenes reales ni se confunden los resultados Binance con los de Pionex.
 
 La estrategia es una hipótesis fijada para su futura medición. Los gates de validación histórica y forward no convierten un resultado positivo en garantía; sus supuestos y límites están detallados en [RESEARCH.md](RESEARCH.md). Un cambio de parámetros/código invalida su huella.
+
+Se agregaron ocho pruebas de archivos oficiales, CHECKSUM, cambio de timestamps a microsegundos, modo público sin credenciales, cuenta de 14,22 USDT y rechazo de una fuente Binance para habilitar Pionex LIVE. La primera propuesta quedó descartada para capital real; las métricas publicadas son exploratorias, no operaciones de cuenta.
 
 ## Lo que no se probó
 

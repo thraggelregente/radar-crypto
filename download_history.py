@@ -14,7 +14,7 @@ from pionex_client import Pionex
 def download(directory, days=365):
     if not 30 <= days <= 400:
         raise ValueError("30–400 días; Pionex documenta un máximo de 10.000 velas")
-    cfg = Config.from_env()
+    cfg = Config.from_env(research=True)
     api = Pionex(cfg)
     market = Market(api, cfg)
     rules = market.load_rules()

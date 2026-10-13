@@ -2,7 +2,7 @@
 
 Python 3.11+, sin dependencias externas. Pionex Spot, solo LONG, sin apalancamiento.
 
-**Estado de investigación: rentabilidad no demostrada.** La descarga pública de Pionex devolvió HTTP 403 desde el entorno de desarrollo. Las pruebas offline verifican comportamiento del programa, no retornos futuros. No se incluyen resultados históricos inventados ni una aprobación para dinero real.
+**Estado de investigación: primera hipótesis rechazada para dinero real.** Se evaluaron tres años de archivos oficiales Binance; los escenarios con operaciones tuvieron retorno negativo. Ver [PROXY_RESULTS.md](PROXY_RESULTS.md). La descarga pública Pionex continúa sin confirmar acceso. Los precios Binance y reglas supuestas no validan ejecución Pionex. Las pruebas offline verifican comportamiento del programa, no retornos futuros.
 
 La investigación, análisis financiero y decisión de automatización están en [RESEARCH.md](RESEARCH.md). Cambios y comprobaciones: [VALIDATION.md](VALIDATION.md).
 
@@ -25,7 +25,7 @@ python main.py
 
 `LIVE_TRADING=false` simula compras y ventas con comisiones, spread observable y slippage configurado. No llama endpoints privados de Pionex. `ENTRY_MODE=auto` permite ensayar la estrategia sin seleccionar retrospectivamente qué señales seguir. Telegram es opcional en paper automático; sus notificaciones sí son mensajes reales cuando se configura un token.
 
-`ORDER_USDT=5` conserva el límite original. **Si el mínimo del par es superior, no habrá operación.** El bot nunca aumenta este importe para satisfacer al exchange. `BOT_CAPITAL_USDT=100` es el presupuesto asignado al bot, no una lectura de todo tu patrimonio. Las tenencias externas no se incorporan automáticamente.
+`ORDER_USDT=5` conserva el límite original. **Si el mínimo del par es superior, no habrá operación.** El bot nunca aumenta este importe para satisfacer al exchange. `BOT_CAPITAL_USDT=14.22` se ajusta al saldo informado, no es una lectura de tu cuenta. Las tenencias externas no se incorporan automáticamente. Con exposición máxima del 30%, 14,22 USDT permiten como máximo 4,266 USDT de exposición; un mínimo de 5 o 10 USDT es incompatible con esa política.
 
 Configuración disponible: `.env.example`. No subir `.env`, claves, bases de datos o journals al repositorio. Configurar permisos de lectura y trading adecuados en Pionex; evitar usar la misma cuenta para otras operaciones sobre los pares vigilados durante la prueba.
 
@@ -71,6 +71,8 @@ python download_history.py --directory history --days 365
 python backtest.py history --output validation.json
 python forward_report.py data/paper.sqlite3 --output forward_validation.json
 ```
+
+Fuente alternativa para investigación: `python download_binance.py --months 36`. Descarga archivos oficiales con checksums, normaliza timestamps y deja la fuente explícita. `python backtest.py history_binance --output reports/proxy_actual.json` estudia esa fuente con costos supuestos de Pionex. **Una fuente Binance nunca aprueba LIVE en Pionex.** Sus reglas de importe/precisión son supuestos declarados, no reglas obtenidas del exchange. Para Windows y errores de carpeta: [WINDOWS.md](WINDOWS.md). `verificar_pionex.cmd` reúne únicamente mínimos y cotizaciones públicas, sin claves ni órdenes.
 
 La descarga usa solamente datos públicos y guarda hashes de CSV y reglas obtenidas. Si Pionex rechaza el acceso, no genera un manifest de éxito. El backtest usa los mismos filtros/riesgo, entradas en la apertura siguiente, cartera conjunta, fees, slippage, spread, gaps, mínimos, costo del cierre final y criterio stop-first cuando OHLC no revela el orden de las barreras. Compara una cesta buy-and-hold al 100% y al 30% de capital; no afirma igualar su volatilidad.
 

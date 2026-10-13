@@ -164,7 +164,7 @@ def simulate(dataset, rules, cfg, start=None, end=None):
 def load_dataset(directory, cfg):
     root = Path(directory)
     manifest = json.loads((root / "manifest.json").read_text())
-    if manifest.get("source") != "Pionex public API" or manifest.get("interval_sec") != cfg.interval_sec:
+    if manifest.get("source") not in {"Pionex public API", "Binance public archive"} or manifest.get("interval_sec") != cfg.interval_sec:
         raise ValueError("Fuente o intervalo no verificable")
     data = {}
     syms = tuple(dict.fromkeys((*cfg.watchlist, "BTC_USDT")))
@@ -228,11 +228,22 @@ def main():
     p = argparse.ArgumentParser()
     p.add_argument("directory")
     p.add_argument("--output", default="validation.json")
+    p.add_argument("--capital", type=float)
+    p.add_argument("--order-cap", type=float)
     args = p.parse_args()
-    cfg = Config.from_env()
+    cfg = Config.from_env(research=True)
+    if args.capital is not None:
+        cfg = replace(cfg, capital=args.capital)
+    if args.order_cap is not None:
+        cfg = replace(cfg, order_cap=args.order_cap)
+    cfg.validate()
     data, rules, manifest = load_dataset(args.directory, cfg)
     digest = hashlib.sha256(json.dumps(manifest, sort_keys=True).encode()).hexdigest()
     report = historical_report(data, rules, cfg, manifest["source"], digest)
+    report["rules_source"] = manifest.get("rules_source", "Pionex public API")
+    report["capital"] = cfg.capital
+    report["order_cap"] = cfg.order_cap
+    report["fee_per_side"] = cfg.fee
     Path(args.output).write_text(json.dumps(report, indent=2, allow_nan=False))
     print(json.dumps({"approved": report["approved"], "oos": {k: v for k, v in report["oos"].items() if k not in {"trade_log", "closed_trades"}}}, indent=2))
 

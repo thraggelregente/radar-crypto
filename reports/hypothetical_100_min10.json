@@ -1,0 +1,90 @@
+{
+  "source": "Binance public archive",
+  "fingerprint": "78bd85d2baffe2ed8a1fea18f7276a24dab9a25593196cba641f4411399f0f49",
+  "generated": 1791865177.263626,
+  "trials": 1,
+  "data_end": 1790812800,
+  "dataset_hash": "f17ab6cbb43ca6df469b63de164b75e9734d9c649dcf5a01ed407d1497b5a583",
+  "history_days": 1095.9583333333333,
+  "oos_days": 767.2083333333334,
+  "approved": false,
+  "oos": {
+    "trades": 66,
+    "net_return": -0.06377264213287115,
+    "profit_factor": 0.6772292969322788,
+    "expectancy": -0.007816828311211985,
+    "expectancy_lower_95": -0.0167343100587993,
+    "max_drawdown": 0.08266511968058099,
+    "win_rate": 0.3181818181818182,
+    "missed_entries_risk_or_minimum": 714
+  },
+  "stress": {
+    "trades": 0,
+    "net_return": 0.0,
+    "profit_factor": 0.0,
+    "expectancy": 0.0,
+    "expectancy_lower_95": -1.0,
+    "max_drawdown": 0.0,
+    "win_rate": 0.0,
+    "missed_entries_risk_or_minimum": 89
+  },
+  "folds": [
+    {
+      "trades": 66,
+      "net_return": -0.06377280877830827,
+      "profit_factor": 0.6772292969322788,
+      "expectancy": -0.007816828311211985,
+      "expectancy_lower_95": -0.0167343100587993,
+      "max_drawdown": 0.08266511703635704,
+      "win_rate": 0.3181818181818182,
+      "missed_entries_risk_or_minimum": 204
+    },
+    {
+      "trades": 98,
+      "net_return": 0.00794578208629848,
+      "profit_factor": 1.0323562474127077,
+      "expectancy": -0.0005084320173864151,
+      "expectancy_lower_95": -0.008674728317699918,
+      "max_drawdown": 0.0649933673627695,
+      "win_rate": 0.41836734693877553,
+      "missed_entries_risk_or_minimum": 57
+    },
+    {
+      "trades": 80,
+      "net_return": -0.048801932709235274,
+      "profit_factor": 0.7816057040215479,
+      "expectancy": -0.004172147101112314,
+      "expectancy_lower_95": -0.010153493126841951,
+      "max_drawdown": 0.07532269096534472,
+      "win_rate": 0.35,
+      "missed_entries_risk_or_minimum": 56
+    }
+  ],
+  "positive_folds": 1,
+  "benchmark_buy_hold_100pct": -0.15007305189129405,
+  "benchmark_buy_hold_30pct": -0.045021915567388215,
+  "limits": [
+    "Fixed hypothesis; no parameter optimization or PBO/DSR computed",
+    "OHLC cannot reconstruct order book or outages",
+    "Adverse intrabar portfolio marks assume synchronized lows; not a measured tick drawdown",
+    "Historical symbol rules are approximated by current rules",
+    "One entry/hour; stop-first for ambiguous bars",
+    "No real-market profitability claim for synthetic data"
+  ],
+  "scenario": "hypothetical_100_min10",
+  "capital": 100.0,
+  "order_cap": 20.0,
+  "fee_per_side": 0.0005,
+  "assumed_minimum": 10.0,
+  "rules_source": "Unverified research assumptions, NOT Pionex rules",
+  "live_approval_allowed": false,
+  "diagnostics": {
+    "mean_winner_return": 0.046758397624640444,
+    "mean_loser_return": -0.03328526708127645,
+    "exit_reasons": {
+      "time": 1,
+      "stop": 44,
+      "target": 21
+    }
+  }
+}

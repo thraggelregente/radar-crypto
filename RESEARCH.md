@@ -2,6 +2,8 @@
 
 Fecha de consulta: 13 de octubre de 2026 (UTC). Proyecto auditado: `thraggelregente/radar-crypto`, base `3ea12c67a1f2c5dbf6cfe49e49730905ae8ffdd3`.
 
+Actualización empírica: se obtuvieron tres años de archivos oficiales Binance y se evaluó la hipótesis con precios reales, costos supuestos y escenarios de presupuesto. La propuesta no pasó la evaluación y no se habilita para dinero real. Ver [PROXY_RESULTS.md](PROXY_RESULTS.md); el bloqueo de datos Pionex descrito abajo corresponde a esa fuente específica, no a la disponibilidad de históricos alternativos.
+
 ## Resultado de la investigación
 
 No hay una ley económica que vuelva perdedor a todo bot por estar automatizado. Un algoritmo ejecuta reglas: el resultado depende de su ventaja neta, riesgos, costos y aplicación. La literatura documenta efectos de momentum, pero no demuestra que un robot minorista particular, un cruce horario de medias o una combinación de RSI sea rentable. Automatizar un sistema sin expectativa positiva puede hacer que pierda de forma más consistente.
