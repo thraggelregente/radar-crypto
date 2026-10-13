@@ -1,0 +1,364 @@
+{
+  "source": "Binance proxy reused history",
+  "approved_live": false,
+  "hashes": {
+    "SOL_USDT": "140ece798efc3065cf4bda4dff77f4b5c772d14d205953bf33bd3f723ca1df12",
+    "ETH_USDT": "f5b22aa178065ee2b76242837482d9eee3a0df158da27d769ad6c360aca07bd2",
+    "NEAR_USDT": "08d8c31fa1bfbf61ea4bedf089d7bef84a37ead9f3c6994f226341a73ab7abe4",
+    "SUI_USDT": "cc9f35820b67ce416b304109853864373f6a89bd5b1ff885fdb37c6bbc88947f",
+    "AVAX_USDT": "00589b0011740a0fd806a63b2dc511e1a527bf03779d228a3ce70ed502e0456f"
+  },
+  "zero_cost": {
+    "start": 1724526000,
+    "end": 1790812800,
+    "trades": 296,
+    "final_usdt": 15.696789704947278,
+    "net_return_pct": -4.752489654446135,
+    "profit_factor": 0.9383612128488663,
+    "max_close_and_open_drawdown_pct": 8.02709572632223,
+    "win_rate_pct": 36.486486486486484,
+    "max_losing_streak": 10,
+    "halted": true,
+    "rejected": {
+      "buy_minimum": 0,
+      "sell_minimum": 41,
+      "invalid_stop": 0,
+      "risk_halt": 874
+    }
+  },
+  "optimistic_target_first": {
+    "start": 1724526000,
+    "end": 1790812800,
+    "trades": 105,
+    "final_usdt": 15.202753870800363,
+    "net_return_pct": -7.750279910191971,
+    "profit_factor": 0.721420779812128,
+    "max_close_and_open_drawdown_pct": 8.077955683734316,
+    "win_rate_pct": 36.19047619047619,
+    "max_losing_streak": 8,
+    "halted": true,
+    "rejected": {
+      "buy_minimum": 1,
+      "sell_minimum": 18,
+      "invalid_stop": 0,
+      "risk_halt": 1624
+    }
+  },
+  "priority_rotations": [
+    {
+      "priority": [
+        "AVAX_USDT",
+        "ETH_USDT",
+        "NEAR_USDT",
+        "SOL_USDT",
+        "SUI_USDT"
+      ],
+      "result": {
+        "start": 1724526000,
+        "end": 1790812800,
+        "trades": 105,
+        "final_usdt": 15.202753870800363,
+        "net_return_pct": -7.750279910191971,
+        "profit_factor": 0.721420779812128,
+        "max_close_and_open_drawdown_pct": 8.077955683734316,
+        "win_rate_pct": 36.19047619047619,
+        "max_losing_streak": 8,
+        "halted": true,
+        "rejected": {
+          "buy_minimum": 1,
+          "sell_minimum": 18,
+          "invalid_stop": 0,
+          "risk_halt": 1624
+        }
+      }
+    },
+    {
+      "priority": [
+        "ETH_USDT",
+        "NEAR_USDT",
+        "SOL_USDT",
+        "SUI_USDT",
+        "AVAX_USDT"
+      ],
+      "result": {
+        "start": 1724526000,
+        "end": 1790812800,
+        "trades": 134,
+        "final_usdt": 15.093806530638398,
+        "net_return_pct": -8.411368139330111,
+        "profit_factor": 0.7598848351926429,
+        "max_close_and_open_drawdown_pct": 8.411368139330111,
+        "win_rate_pct": 36.56716417910448,
+        "max_losing_streak": 8,
+        "halted": true,
+        "rejected": {
+          "buy_minimum": 1,
+          "sell_minimum": 41,
+          "invalid_stop": 0,
+          "risk_halt": 1505
+        }
+      }
+    },
+    {
+      "priority": [
+        "NEAR_USDT",
+        "SOL_USDT",
+        "SUI_USDT",
+        "AVAX_USDT",
+        "ETH_USDT"
+      ],
+      "result": {
+        "start": 1724526000,
+        "end": 1790812800,
+        "trades": 206,
+        "final_usdt": 15.158256887914666,
+        "net_return_pct": -8.02028587430421,
+        "profit_factor": 0.8503672961425118,
+        "max_close_and_open_drawdown_pct": 8.238884212144892,
+        "win_rate_pct": 36.407766990291265,
+        "max_losing_streak": 10,
+        "halted": true,
+        "rejected": {
+          "buy_minimum": 1,
+          "sell_minimum": 54,
+          "invalid_stop": 0,
+          "risk_halt": 1232
+        }
+      }
+    },
+    {
+      "priority": [
+        "SOL_USDT",
+        "SUI_USDT",
+        "AVAX_USDT",
+        "ETH_USDT",
+        "NEAR_USDT"
+      ],
+      "result": {
+        "start": 1724526000,
+        "end": 1790812800,
+        "trades": 80,
+        "final_usdt": 15.09632608322234,
+        "net_return_pct": -8.39607959209745,
+        "profit_factor": 0.6343641684101856,
+        "max_close_and_open_drawdown_pct": 8.39607959209745,
+        "win_rate_pct": 30.0,
+        "max_losing_streak": 6,
+        "halted": true,
+        "rejected": {
+          "buy_minimum": 2,
+          "sell_minimum": 20,
+          "invalid_stop": 0,
+          "risk_halt": 1755
+        }
+      }
+    },
+    {
+      "priority": [
+        "SUI_USDT",
+        "AVAX_USDT",
+        "ETH_USDT",
+        "NEAR_USDT",
+        "SOL_USDT"
+      ],
+      "result": {
+        "start": 1724526000,
+        "end": 1790812800,
+        "trades": 104,
+        "final_usdt": 15.158444179340972,
+        "net_return_pct": -8.01914939720284,
+        "profit_factor": 0.7137507104178806,
+        "max_close_and_open_drawdown_pct": 8.01914939720284,
+        "win_rate_pct": 35.57692307692308,
+        "max_losing_streak": 8,
+        "halted": true,
+        "rejected": {
+          "buy_minimum": 2,
+          "sell_minimum": 22,
+          "invalid_stop": 0,
+          "risk_halt": 1628
+        }
+      }
+    }
+  ],
+  "forward_returns": {
+    "1": {
+      "signals": 2132,
+      "raw_mean_pct": -0.02142595776982358,
+      "net_mean_pct": -0.3209371705713621,
+      "net_median_pct": -0.3695089916997407,
+      "positive_net_pct": 28.095684803001877,
+      "trend_baseline_net_pct": -0.29232062145998144,
+      "by_symbol": {
+        "SOL_USDT": {
+          "signals": 454,
+          "mean_net_pct": -0.32180703401104216,
+          "median_net_pct": -0.3492741815673106,
+          "trend_baseline_net_pct": -0.2902636910167439
+        },
+        "ETH_USDT": {
+          "signals": 453,
+          "mean_net_pct": -0.33717766206959693,
+          "median_net_pct": -0.3610460752838329,
+          "trend_baseline_net_pct": -0.2923511188771474
+        },
+        "NEAR_USDT": {
+          "signals": 425,
+          "mean_net_pct": -0.28173048094341163,
+          "median_net_pct": -0.36599806765507115,
+          "trend_baseline_net_pct": -0.28511195715456383
+        },
+        "SUI_USDT": {
+          "signals": 410,
+          "mean_net_pct": -0.3769986843903011,
+          "median_net_pct": -0.46417051712346336,
+          "trend_baseline_net_pct": -0.2887139524149518
+        },
+        "AVAX_USDT": {
+          "signals": 390,
+          "mean_net_pct": -0.28484938025289763,
+          "median_net_pct": -0.3565942274954159,
+          "trend_baseline_net_pct": -0.30557545547115467
+        }
+      }
+    },
+    "4": {
+      "signals": 2132,
+      "raw_mean_pct": -0.01740493547313955,
+      "net_mean_pct": -0.31692819426829527,
+      "net_median_pct": -0.4198821674911868,
+      "positive_net_pct": 36.632270168855534,
+      "trend_baseline_net_pct": -0.2675787666339409,
+      "by_symbol": {
+        "SOL_USDT": {
+          "signals": 454,
+          "mean_net_pct": -0.4161950825984374,
+          "median_net_pct": -0.41566656075748276,
+          "trend_baseline_net_pct": -0.2711623760368225
+        },
+        "ETH_USDT": {
+          "signals": 453,
+          "mean_net_pct": -0.3575500251897969,
+          "median_net_pct": -0.3912052355051321,
+          "trend_baseline_net_pct": -0.2722977561468767
+        },
+        "NEAR_USDT": {
+          "signals": 425,
+          "mean_net_pct": -0.12953550368763303,
+          "median_net_pct": -0.29957539970016933,
+          "trend_baseline_net_pct": -0.24958549330380145
+        },
+        "SUI_USDT": {
+          "signals": 410,
+          "mean_net_pct": -0.3841174946248224,
+          "median_net_pct": -0.5649346203085659,
+          "trend_baseline_net_pct": -0.22418210621397255
+        },
+        "AVAX_USDT": {
+          "signals": 390,
+          "mean_net_pct": -0.2877626138613225,
+          "median_net_pct": -0.4137543780082853,
+          "trend_baseline_net_pct": -0.3200727988892457
+        }
+      }
+    },
+    "12": {
+      "signals": 2130,
+      "raw_mean_pct": -0.10609990355401051,
+      "net_mean_pct": -0.4053574540440243,
+      "net_median_pct": -0.49833299223519534,
+      "positive_net_pct": 40.985915492957744,
+      "trend_baseline_net_pct": -0.20656451409787396,
+      "by_symbol": {
+        "SOL_USDT": {
+          "signals": 454,
+          "mean_net_pct": -0.5421788773489158,
+          "median_net_pct": -0.591010957984589,
+          "trend_baseline_net_pct": -0.21320500560401962
+        },
+        "ETH_USDT": {
+          "signals": 452,
+          "mean_net_pct": -0.33235578377444486,
+          "median_net_pct": -0.3429102278896756,
+          "trend_baseline_net_pct": -0.22207337423479132
+        },
+        "NEAR_USDT": {
+          "signals": 425,
+          "mean_net_pct": -0.26184002620736285,
+          "median_net_pct": -0.43999853294002245,
+          "trend_baseline_net_pct": -0.16827568136627247
+        },
+        "SUI_USDT": {
+          "signals": 409,
+          "mean_net_pct": -0.447325775568092,
+          "median_net_pct": -0.6995531917415421,
+          "trend_baseline_net_pct": -0.0767967696028764
+        },
+        "AVAX_USDT": {
+          "signals": 390,
+          "mean_net_pct": -0.4430746132970154,
+          "median_net_pct": -0.5375876510052335,
+          "trend_baseline_net_pct": -0.3503941915645351
+        }
+      }
+    },
+    "24": {
+      "signals": 2126,
+      "raw_mean_pct": -0.20120689715877788,
+      "net_mean_pct": -0.5001795304925566,
+      "net_median_pct": -0.791318825465942,
+      "positive_net_pct": 40.12229539040452,
+      "trend_baseline_net_pct": -0.11430548240299447,
+      "by_symbol": {
+        "SOL_USDT": {
+          "signals": 452,
+          "mean_net_pct": -0.7773989190242325,
+          "median_net_pct": -0.8151700416743457,
+          "trend_baseline_net_pct": -0.2025561876031255
+        },
+        "ETH_USDT": {
+          "signals": 452,
+          "mean_net_pct": -0.3848002535981384,
+          "median_net_pct": -0.5338872435882103,
+          "trend_baseline_net_pct": -0.1872630028095425
+        },
+        "NEAR_USDT": {
+          "signals": 424,
+          "mean_net_pct": -0.13448145982556728,
+          "median_net_pct": -0.4108095273814505,
+          "trend_baseline_net_pct": 0.031858701516657165
+        },
+        "SUI_USDT": {
+          "signals": 409,
+          "mean_net_pct": -0.43431023622758425,
+          "median_net_pct": -1.3904989437758863,
+          "trend_baseline_net_pct": 0.21503336952668922
+        },
+        "AVAX_USDT": {
+          "signals": 389,
+          "mean_net_pct": -0.7799861959350669,
+          "median_net_pct": -1.0235411384990178,
+          "trend_baseline_net_pct": -0.412705343965542
+        }
+      }
+    }
+  },
+  "limitations": [
+    "Overlapping events; sample count is not independent observations",
+    "Trend baseline is diagnostic, not matched randomized control",
+    "Zero costs alter sizing/minimum eligibility and drawdown halts",
+    "Priority tests exploratory, no best order selected",
+    "Intrabar stop/target chronology unknown",
+    "Hourly OHLC excludes manual stop delay and actual Pionex fills",
+    "Current minimum/8-decimal assumptions remain unverified historically"
+  ],
+  "audit_findings": [
+    "No observed future-data use: prefix invariance passed in trials 2/3.",
+    "Intra-hour exits recorded at bar opening timestamp: exact hold times understated by up to one hour; does not change modeled exit cashflows.",
+    "Drawdown/open-close daily blocks omit adverse intrabar path. Reported drawdown is not full-path maximum.",
+    "Simulated stops automatic; no sell-button delay modeling. Entry-delay test is not exit-delay test.",
+    "Fee charged in base and precision assumed 8 decimals; account rules and actual fee asset unverified.",
+    "Alphabetical allocation is arbitrary; five rotations all lose.",
+    "All 2,126+ candidate signals included for forward returns, including those unavailable under cash/risk limits. Overlapping observations are not independent."
+  ]
+}
